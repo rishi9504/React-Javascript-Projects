@@ -7,3 +7,9 @@ This repo will be having mini-mid range JS and React projects/apps with only the
 Created a basic step function app using react useState method. This app enables us to understand the use of useState in the proper way and clear the concepts.
 
 Here is the codesandbox link for the same: https://codesandbox.io/s/flamboyant-currying-s772t5?file=/src/App.js 
+
+# Date Counter using React UseState
+
+Created a basic date counter  app using react useState method. This app enables us to understand the use of useState in the proper way and clear the concepts.
+
+Here is the codesandbox link for the same: https://codesandbox.io/s/empty-silence-vp9c3p?file=/src/App.js
