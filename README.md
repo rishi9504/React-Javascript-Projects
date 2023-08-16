@@ -13,3 +13,8 @@ Here is the codesandbox link for the same: https://codesandbox.io/s/flamboyant-c
 Created a basic date counter  app using react useState method. This app enables us to understand the use of useState in the proper way and clear the concepts.
 
 Here is the codesandbox link for the same: https://codesandbox.io/s/empty-silence-vp9c3p?file=/src/App.js
+
+
+# Accordion Component using React UseState 
+
+Created an Accordion Component using react useState Hook: https://codesandbox.io/s/quizzical-butterfly-pyzc2s?file=/src/App.js 
