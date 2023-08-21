@@ -18,3 +18,8 @@ Here is the codesandbox link for the same: https://codesandbox.io/s/empty-silenc
 # Accordion Component using React UseState 
 
 Created an Accordion Component using react useState Hook: https://codesandbox.io/s/quizzical-butterfly-pyzc2s?file=/src/App.js 
+
+# Tip Calculator using React useState and React Fragment
+
+Created a tip calculator that takes user input and calculates tip based on the satisfaction level of the 
+consumer. Used useState, react fragment for the same. https://codesandbox.io/s/twilight-hill-zzsjzn?file=/src/App.js 
