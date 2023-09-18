@@ -23,3 +23,7 @@ Created an Accordion Component using react useState Hook: https://codesandbox.io
 
 Created a tip calculator that takes user input and calculates tip based on the satisfaction level of the 
 consumer. Used useState, react fragment for the same. https://codesandbox.io/s/twilight-hill-zzsjzn?file=/src/App.js 
+
+
+# Text Expander Utility in React
+https://codesandbox.io/s/reverent-farrell-fwt8kk?file=/src/App.js 
