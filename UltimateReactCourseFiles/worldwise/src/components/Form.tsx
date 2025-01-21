@@ -13,12 +13,18 @@ import { useNavigate } from "react-router-dom";
 import Message from "./Message";
 import Spinner from "./Spinner";
 
-export function convertToEmoji(countryCode: string) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split("")
-    .map((char, index) => 127397 + char.charCodeAt(index));
-  return String.fromCodePoint(...codePoints);
+export function convertToEmoji(countryCode: string | null): string | null {
+  if (!countryCode) return null;
+
+  try {
+    countryCode = countryCode.replace(/^US-/, '');
+    countryCode = countryCode.toUpperCase();
+    const codePoints = countryCode.split('').map(char => 127397 + char.charCodeAt(0));
+    return String.fromCodePoint(...codePoints);
+  } catch (error) {
+    console.error(`convertToEmoji: there was an error converting ${countryCode} to an emoji: `, error);
+    return null;
+  }
 }
 
 const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
@@ -44,6 +50,8 @@ function Form() {
         try {
           setIsLoadingGeocoding(true);
           setGeocodingError("");
+          console.log("Getting here error");
+          
 
           const res = await fetch(
             `${BASE_URL}?latitude=${lat}&longitude=${lng}`
@@ -93,7 +101,12 @@ function Form() {
   if (!lat && !lng)
     return <Message message="Start by clicking somewhere on the map" />;
 
-  if (geocodingError) return <Message message={geocodingError} />;
+  if (geocodingError){
+    console.log({geocodingError});
+    
+    return <Message message={geocodingError} />;
+
+  } 
 
   return (
     <form
