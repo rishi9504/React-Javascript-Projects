@@ -738,8 +738,124 @@ function App() {
 
 ---
 
-### **2. Advanced React Concepts**  
-- How does **useReducer** differ from **useState**?  
+###  Advanced React Concepts
+
+### **How `useReducer` Differs from `useState` in React**  
+
+Both `useReducer` and `useState` are React hooks used for **state management**, but they serve different purposes.  
+
+| Feature | `useState` | `useReducer` |
+|---------|-----------|--------------|
+| **Use Case** | Simple state updates | Complex state logic |
+| **State Type** | Usually a single value (string, number, boolean) | Can be an object with multiple properties |
+| **Update Method** | Directly updates state (`setState`) | Uses a reducer function (`dispatch` + action) |
+| **Best For** | Simple UI interactions | Complex state transitions, dependent updates |
+| **Performance** | Re-renders on every state update | Optimized for batch updates |
+
+---
+
+## **1️⃣ `useState` - Best for Simple State Management**  
+✅ Ideal for **simple values** (numbers, booleans, strings).  
+✅ Updates **directly using `setState`**.  
+✅ Easier to use and understand.  
+
+### **Example: Using `useState` for a Counter**  
+```jsx
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+🟢 **Why use `useState` here?**  
+- The state is a **single number** and easy to update.  
+- **No complex logic**—just incrementing a value.  
+
+---
+
+## **2️⃣ `useReducer` - Best for Complex State Logic**  
+✅ Ideal for **multiple related state values** (e.g., form inputs, multiple counters).  
+✅ Uses a **reducer function** to manage updates.  
+✅ Helps **maintain structured, predictable state changes**.  
+
+### **Example: Using `useReducer` for a Counter**  
+```jsx
+import { useReducer } from "react";
+
+// Reducer function (defines state updates)
+function counterReducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return { count: state.count + 1 };
+    case "decrement":
+      return { count: state.count - 1 };
+    case "reset":
+      return { count: 0 };
+    default:
+      return state;
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(counterReducer, { count: 0 });
+
+  return (
+    <div>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: "increment" })}>+</button>
+      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+      <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+    </div>
+  );
+}
+```
+🟢 **Why use `useReducer` here?**  
+- **Handles multiple state updates** (increment, decrement, reset).  
+- **Uses actions** (`dispatch`) for better **state management structure**.  
+
+---
+
+## **3️⃣ When to Use `useReducer` Instead of `useState`**  
+
+### **Use `useState` when:**  
+✅ The state is **simple** (single value).  
+✅ The state updates **independently**.  
+✅ You don’t need to **manage multiple actions**.  
+
+**Example:**  
+✔️ **Toggling a modal (`true/false`)**  
+✔️ **Managing a single input field (`text`)**  
+
+---
+
+### **Use `useReducer` when:**  
+✅ The state is **complex** (e.g., objects, multiple properties).  
+✅ Updates **depend on previous state**.  
+✅ You need **centralized state logic** (similar to Redux).  
+
+**Example:**  
+✔️ **Managing a shopping cart (add/remove items, update quantity)**  
+✔️ **Handling form inputs with multiple fields**  
+
+---
+
+## **4️⃣ Summary: Key Differences**  
+
+| Feature | `useState` | `useReducer` |
+|---------|-----------|--------------|
+| **State Complexity** | Simple | Complex (object, multiple properties) |
+| **Update Method** | Direct (`setState`) | Dispatch (`dispatch({ type })`) |
+| **Performance** | Fine for small updates | More efficient for complex updates |
+| **Code Structure** | Simple | Structured and scalable |
+
+
 - Explain **React.memo** and when to use it.  
 - What are **controlled and uncontrolled components** in React?  
 - How would you **optimize performance** in a large-scale React application?  
