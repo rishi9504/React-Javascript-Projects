@@ -1,0 +1,20 @@
+.usersPage {
+    padding: 2rem;
+  }
+  
+  .usersTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .usersTable th, .usersTable td {
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+  }
+  
+  .usersTable th {
+    background: #f9fafb;
+    font-weight: bold;
+  }
+  

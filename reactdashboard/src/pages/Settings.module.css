@@ -1,0 +1,55 @@
+.settingsPage {
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+  }
+  
+  .section h2 {
+    margin-bottom: 1rem;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="file"] {
+    display: block;
+    margin-bottom: 1rem;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 0.5rem 1rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #2563eb;
+  }
+  
+  .dangerZone {
+    background: #fff1f2;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  .deleteButton {
+    background: #ef4444;
+  }
+  
+  .deleteButton:hover {
+    background: #dc2626;
+  }
+  
