@@ -1,10 +1,552 @@
 1	What is React?
+React is a JavaScript library used for building user interfaces, especially single-page applications where you need a fast, interactive experience.
+
+Here’s a quick breakdown:
+
+Created by: Facebook (now Meta)
+
+Main concept: Build UI using components – small, reusable pieces of code that define how a part of the UI should look and behave.
+
+Key features:
+
+Declarative syntax: You describe what the UI should look like, and React takes care of updating the DOM.
+
+Component-based: Everything is a component—easy to reuse and maintain.
+
+Virtual DOM: React creates a virtual representation of the UI in memory, and only updates the real DOM when necessary—making it fast.
+
+JSX: Lets you write HTML-like code within JavaScript.
+
+
+
+Example of a simple React component:
+
+function Greeting() {
+  return <h1>Hello, world!</h1>;
+}
+
+
 2	What is the history behind React’s evolution?
+React has a pretty interesting backstory that traces back to Facebook’s challenges with building fast, maintainable user interfaces. Here's a quick timeline of its evolution:
+
+
+---
+
+2011: React is Born at Facebook
+
+Problem: Facebook's UI was getting more complex, especially with things like the live news feed updates.
+
+Solution: Jordan Walke, a software engineer at Facebook, created a prototype library called FaxJS that later became React.
+
+First used internally on Facebook’s Ads dashboard, where performance was critical.
+
+
+
+---
+
+2013: Open Source Release
+
+React was released as an open-source project at JSConf US.
+
+At first, it faced skepticism—mostly because of JSX (HTML in JavaScript), which was weird for the dev community back then.
+
+Over time, devs started to love its component model and Virtual DOM.
+
+
+
+---
+
+2015: React Native
+
+Facebook released React Native, allowing devs to build native mobile apps using React concepts.
+
+Code could now be shared across web and mobile.
+
+
+
+---
+
+2016: React Fiber Project
+
+React’s core was being rewritten as React Fiber, aiming for better performance and features like incremental rendering.
+
+It was a huge behind-the-scenes improvement that shipped in React 16 (2017).
+
+
+
+---
+
+2018: React Hooks
+
+Introduced in React 16.8, Hooks like useState and useEffect let developers use state and lifecycle methods in functional components.
+
+Marked a big shift from class components to function components.
+
+
+
+---
+
+2020–2023: Concurrent Mode, Suspense, Server Components
+
+Focus shifted toward performance, user experience, and server-side rendering:
+
+Concurrent Mode (partial release)
+
+Suspense for data fetching
+
+React Server Components (still experimental)
+
+
+Huge push to improve SSR (Server Side Rendering) with Next.js becoming the go-to framework.
+
+
+
+---
+
+Today
+
+React is maintained by Meta and powers a huge chunk of the web.
+
+It's used by companies like Instagram, Airbnb, Netflix, Uber, etc.
+
+Ecosystem includes tools like Next.js, Vite, React Query, etc.
+
+
+
+---
+
 3	What are the major features of React?
+React packs a bunch of powerful features that make it a top choice for building modern UIs. Here are the major features of React:
+
+
+---
+
+1. JSX (JavaScript XML)
+
+Lets you write HTML-like code inside JavaScript.
+
+Improves readability and keeps UI and logic closely tied.
+
+
+const element = <h1>Hello, world!</h1>;
+
+
+---
+
+2. Component-Based Architecture
+
+UI is broken into reusable, self-contained components.
+
+Each component manages its own logic and rendering.
+
+
+function Button() {
+  return <button>Click Me</button>;
+}
+
+
+---
+
+3. Virtual DOM
+
+React maintains a lightweight in-memory virtual representation of the DOM.
+
+When the state changes, it calculates the difference (diffing) and updates only what's needed.
+
+
+
+---
+
+4. Declarative UI
+
+You describe what you want the UI to look like, and React takes care of the how.
+
+Makes code more predictable and easier to debug.
+
+
+
+---
+
+5. Unidirectional Data Flow
+
+Data flows one way (from parent to child via props).
+
+Makes app state easier to trace and manage.
+
+
+
+---
+
+6. React Hooks
+
+Introduced in React 16.8.
+
+Hooks like useState, useEffect, useContext allow you to use state and other features in functional components.
+
+
+const [count, setCount] = useState(0);
+
+
+---
+
+7. React Developer Tools
+
+Browser extension to inspect React component hierarchy, state, and props.
+
+
+
+---
+
+8. Server-Side Rendering (SSR)
+
+React supports SSR using frameworks like Next.js, improving SEO and performance.
+
+
+
+---
+
+9. React Native
+
+Write mobile apps using React components that render to native iOS and Android UI elements.
+
+
+
+---
+
+10. Ecosystem and Community
+
+Massive ecosystem with libraries for routing (React Router), state management (Redux, Zustand), data fetching (React Query, SWR), testing, and more.
+
+
+
+---
+
 4	What is JSX?
+
+JSX (JavaScript XML) is a syntax extension for JavaScript used in React to describe what the UI should look like. It allows you to write HTML-like code inside JavaScript, making the UI code more readable and declarative.
+
+
+---
+
+Why JSX?
+
+It blends markup (HTML) and logic (JavaScript) in one place.
+
+Makes it easier to visualize component structure and logic together.
+
+
+
+---
+
+Example:
+
+const element = <h1>Hello, world!</h1>;
+
+This JSX code gets transpiled (by Babel) into:
+
+const element = React.createElement('h1', null, 'Hello, world!');
+
+
+---
+
+Features of JSX:
+
+1. Looks like HTML but is JavaScript:
+
+You can embed any JS expression inside {}.
+
+
+const name = 'Jane';
+const greeting = <h1>Hello, {name}!</h1>;
+
+
+2. Supports JavaScript expressions:
+
+You can use functions, variables, conditionals, etc.
+
+
+const isLoggedIn = true;
+const message = <p>{isLoggedIn ? 'Welcome back!' : 'Please log in'}</p>;
+
+
+3. Must return a single root element:
+
+Wrap multiple elements in a parent like a <div> or a React Fragment (<> </>).
+
+
+return (
+  <>
+    <h1>Title</h1>
+    <p>Subtitle</p>
+  </>
+);
+
+
+4. Custom components start with capital letters:
+
+function MyButton() {
+  return <button>Click Me</button>;
+}
+
+const app = <MyButton />;
+
+
+
+
+---
+
+Behind the scenes:
+
+JSX is not required to write React, but it makes code more expressive and concise. Tools like Babel convert JSX into standard JavaScript calls (React.createElement).
+
+
+
+
 5	What is the difference between an Element and a Component?
+
+In React parlance, elements and components are two distinct concepts, each playing its own role in how you build UIs:
+
+
+---
+
+1. React Element
+
+What it is:
+A plain JavaScript object that describes what you want to see on the screen.
+
+Characteristics:
+
+Immutable — once created, you can’t change it.
+
+Cheap to create.
+
+Describes a DOM node (e.g. <div>) or a user‑defined component (e.g. <MyButton />) via its type, props, and children.
+
+
+Creation:
+
+Automatically created when you write JSX:
+
+const el = <h1 className="title">Hello</h1>;
+
+Under the hood, JSX transpiles to:
+
+const el = React.createElement(
+  'h1',
+  { className: 'title' },
+  'Hello'
+);
+
+
+Usage:
+
+You pass elements to ReactDOM.render() (or return them from components) to tell React what to draw.
+
+
+
+
+---
+
+2. React Component
+
+What it is:
+A blueprint (function or class) that—when invoked—returns React elements (or other components).
+
+Characteristics:
+
+Can be stateful or stateless; can use lifecycle (class) or hooks (function).
+
+May accept inputs called props.
+
+Encapsulates its own rendering logic and (optionally) internal state.
+
+
+Types:
+
+1. Function Component (modern, with hooks)
+
+function Greeting({ name }) {
+  return <h1>Hello, {name}!</h1>;
+}
+
+
+2. Class Component (older style)
+
+class Counter extends React.Component {
+  state = { count: 0 };
+  render() {
+    return (
+      <div>
+        <p>Count: {this.state.count}</p>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          +1
+        </button>
+      </div>
+    );
+  }
+}
+
+
+
+
+
+---
+
+Key Differences
+
+
+---
+
+Putting it all together
+
+1. You write a component (e.g. function App() { … }).
+
+
+2. Inside that component, you return React elements (<div>…</div>).
+
+
+3. React takes those elements, diffs them against the previous render, and updates the real DOM accordingly.
+
+
+
+
+---
+
 6	How do you create components in React?
+
+Creating components in React is super straightforward. There are two main ways to create them: function components (the modern and preferred way) and class components (older, still used in legacy code).
+
+
+---
+
+1. Function Components (Modern Way)
+
+Basic Syntax:
+
+function Welcome(props) {
+  return <h1>Hello, {props.name}!</h1>;
+}
+
+Usage:
+
+<Welcome name="Alice" />
+
+With Hooks:
+
+You can add state and side effects using React Hooks.
+
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
+    </div>
+  );
+}
+
+
+---
+
+2. Class Components (Legacy Way)
+
+Basic Syntax:
+
+import React from 'react';
+
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}!</h1>;
+  }
+}
+
+With State:
+
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Count: {this.state.count}</p>
+        <button onClick={this.increment}>+1</button>
+      </div>
+    );
+  }
+}
+
+
+---
+
+Tips:
+
+Component names must start with a capital letter.
+
+Always return a single root element (use a <div> or React Fragment if needed).
+
+Use props to pass data to components.
+
+
+
+---
+
 7	When should you use a Class Component over a Function Component?
+
+In modern React, function components are preferred almost all the time—especially since the introduction of Hooks in React 16.8, which gave function components full access to features like state, side effects, context, refs, etc.
+
+However, here’s a breakdown of when you might still use a class component (though rare):
+
+
+---
+
+Use Function Components When:
+
+You’re writing new code (best practice).
+
+You want to use Hooks (useState, useEffect, etc.).
+
+You care about simpler syntax, better readability, and less boilerplate.
+
+You’re following modern best practices and community standards.
+
+
+
+---
+
+Use Class Components When:
+
+You're working in a legacy codebase that already uses class components.
+
+You’re using third-party libraries or patterns that are tightly coupled to class components (though this is becoming rare).
+
+You need to understand or maintain old projects that rely on componentDidMount, shouldComponentUpdate, etc.
+
+
+
+---
+
+Feature Comparison
+
+
+---
+
+In short:
+
+> Use function components by default.
+Only use class components if you're dealing with older code or special edge cases.
+
+
+
 8	What are Pure Components?
 9	What is state in React?
 10	What are props in React?
