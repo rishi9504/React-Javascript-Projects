@@ -1,4 +1,4 @@
-1	What is React?
+	What is React?
 
 React is a **JavaScript library** used for building **user interfaces**, especially **single-page applications** where you need a fast, interactive experience.
 
@@ -23,7 +23,7 @@ function Greeting() {
 
 
 
-2	What is the history behind React’s evolution?
+	What is the history behind React’s evolution?
 
 React has a pretty interesting backstory that traces back to Facebook’s challenges with building fast, maintainable user interfaces. Here's a quick timeline of its evolution:
 
@@ -2048,21 +2048,21 @@ React Router
 87	How do you implement a default or NotFound page?
 88	How do you get history in React Router v4?
 89	How do you perform an automatic redirect after login?
-React Internationalization
+## React Internationalization
 90	What is React Intl?
 91	What are the main features of React Intl?
 92	What are the two ways of formatting in React Intl?
 93	How do you use FormattedMessage as a placeholder with React Intl?
 94	How do you access the current locale with React Intl?
 95	How do you format a date using React Intl?
-React Testing
+## React Testing
 96	What is the Shallow Renderer in React testing?
 97	What is the TestRenderer package in React?
 98	What is the purpose of the ReactTestUtils package?
 99	What is Jest?
 100	What are the advantages of Jest over Jasmine?
 101	Can you give a simple example of a Jest test case?
-React Redux
+## React Redux
 102	What is Flux?
 103	What is Redux?
 104	What are the core principles of Redux?
@@ -2097,12 +2097,12 @@ React Redux
 133	How do you set the initial state in Redux?
 134	How is Relay different from Redux?
 135	What is an action in Redux?
-React Native
+## React Native
 136	What is the difference between React Native and React?
 137	How do you test React Native apps?
 138	How do you log in React Native?
 139	How do you debug React Native apps?
-React Supported Libraries and Integration
+## React Supported Libraries and Integration
 140	What is Reselect and how does it work?
 141	What is Flow?
 142	What is the difference between Flow and PropTypes?
@@ -2116,7 +2116,7 @@ React Supported Libraries and Integration
 150	What are styled-components?
 151	Can you give an example of styled-components?
 152	What is Relay?
-Miscellaneous
+## Miscellaneous
 153	What are the main features of the Reselect library?
 154	Can you give an example of Reselect usage?
 155	Can Redux only be used with React?
