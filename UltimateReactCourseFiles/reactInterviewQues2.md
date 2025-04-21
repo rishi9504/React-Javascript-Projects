@@ -4056,45 +4056,1860 @@ Component names in React should start with a **capital letter** to differentiate
 
 How do you access props within attribute quotes?
 
+In React, to **access props within attribute quotes**, you use **curly braces `{}`** to embed JavaScript expressions—including props—within JSX.
+
+---
+
+### ✅ **Basic Syntax**
+
+```jsx
+<MyComponent title={props.title} />
+```
+
+Here, you're accessing the `title` prop and passing it to `MyComponent`. The value of `title` is a **JavaScript expression**, not a string.
+
+---
+
+### 🔍 **Real Example**
+
+Let's say you have a parent component passing a prop:
+
+```jsx
+function ParentComponent() {
+  const username = "Alex";
+
+  return <Greeting name={username} />;
+}
+```
+
+Then in the `Greeting` component, you use the prop:
+
+```jsx
+function Greeting(props) {
+  return <h1>Hello, {props.name}!</h1>;
+}
+```
+
+In the parent:
+```jsx
+<Greeting name={username} /> // ✅ This works
+```
+
+🚫 **Incorrect:**
+```jsx
+<Greeting name="props.username" /> // ❌ This passes a literal string "props.username"
+```
+
+✅ **Correct:**
+```jsx
+<Greeting name={props.username} /> // ✅ This evaluates the JavaScript expression
+```
+
+---
+
+### 🧠 Why Curly Braces?
+
+- Curly braces let you **embed JS expressions inside JSX**.
+- Inside quotes (`"..."`) you're passing a **string literal**.
+- So use quotes for static values, and `{}` for dynamic ones (like props, variables, or functions).
+
+---
+
+### TL;DR
+
+| You want to pass...       | Use...             | Example                          |
+|---------------------------|--------------------|----------------------------------|
+| A string literal          | Quotes             | `<Component name="Alex" />`     |
+| A variable or prop        | Curly braces       | `<Component name={props.name} />` |
+| A function or expression  | Curly braces       | `<Component age={getAge()} />`  |
+
+---
+
+
 What is a React PropType array with shape?
+
+In React, when using **PropTypes** for type-checking props, you can define a prop as an **array of objects** with a specific structure using `PropTypes.arrayOf(PropTypes.shape(...))`.
+
+This is super useful when you want to validate that each object inside an array prop follows a specific "shape" or structure—i.e., has certain properties with specific types.
+
+---
+
+### ✅ **Syntax**
+
+```jsx
+Component.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      active: PropTypes.bool,
+    })
+  ).isRequired,
+};
+```
+
+---
+
+### 🔍 **Explanation**
+
+- `items`: The name of the prop.
+- `PropTypes.arrayOf(...)`: Asserts that `items` is an array.
+- `PropTypes.shape({ ... })`: Defines the expected structure of **each object** in the array.
+- `isRequired`: Enforces that the prop must be provided (and not `null` or `undefined`).
+
+---
+
+### 🧪 **Example Usage**
+
+```jsx
+function UserList({ users }) {
+  return (
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name} {user.active ? "(Online)" : "(Offline)"}</li>
+      ))}
+    </ul>
+  );
+}
+
+UserList.propTypes = {
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      active: PropTypes.bool,
+    })
+  ).isRequired,
+};
+```
+
+### ✅ Passed Correctly:
+```jsx
+<UserList users={[
+  { id: 1, name: "Alice", active: true },
+  { id: 2, name: "Bob", active: false }
+]} />
+```
+
+### ❌ Incorrect Example:
+```jsx
+<UserList users={[
+  { id: "1", name: "Alice" }, // id should be a number
+  { name: "Bob", active: true } // missing id
+]} />
+```
+
+React will warn you in the console about incorrect prop types when in **development mode**.
+
+---
+
+### TL;DR
+
+- Use `PropTypes.arrayOf(PropTypes.shape({ ... }))` to validate an array of objects with a specific structure.
+- Great for components that receive lists of structured data (like users, posts, products, etc).
+- Helps catch bugs early by ensuring your props are passed in the expected format.
+
+---
+
+
 
 How do you conditionally apply class attributes?
 
+In React, you can **conditionally apply class attributes** using **JavaScript expressions** inside the `className` prop. This gives you full control to toggle or combine classes based on state, props, or logic.
+
+---
+
+## ✅ 1. **Using Ternary Operator**
+
+```jsx
+<div className={isActive ? "btn active" : "btn"}>Click Me</div>
+```
+
+---
+
+## ✅ 2. **Using Template Literals**
+
+```jsx
+<div className={`btn ${isActive ? "active" : ""}`}>Click Me</div>
+```
+
+---
+
+## ✅ 3. **Using Logical AND (`&&`)**
+
+```jsx
+<div className={`btn ${isActive && "active"}`}>Click Me</div>
+```
+
+⚠️ This works but if `isActive` is false, you'll get `btn false`—which is technically harmless but not clean. Prefer ternary or helper libraries for clarity.
+
+---
+
+## ✅ 4. **Using `clsx` or `classnames` Libraries (Recommended for cleaner logic)**
+
+### Install:
+```bash
+npm install clsx
+```
+
+### Usage:
+```jsx
+import clsx from 'clsx';
+
+<div className={clsx("btn", { active: isActive, disabled: isDisabled })}>
+  Click Me
+</div>
+```
+
+- Adds `"active"` class if `isActive` is true.
+- Adds `"disabled"` if `isDisabled` is true.
+
+This is more readable for complex conditions.
+
+---
+
+## ✅ 5. **Function Example**
+
+```jsx
+function Button({ isPrimary }) {
+  const btnClass = isPrimary ? "btn primary" : "btn secondary";
+  return <button className={btnClass}>Submit</button>;
+}
+```
+
+---
+
+## TL;DR
+
+| Technique               | Example                                  |
+|------------------------|-------------------------------------------|
+| Ternary                | `className={isActive ? "a" : "b"}`        |
+| Template Literal       | ``className={`btn ${isActive ? "a" : ""}`}` |
+| Logical AND            | `className={`btn ${isActive && "a"}`}`    |
+| `clsx` or `classnames` | `className={clsx("btn", { active: cond })}` |
+
+---
+
 What is the difference between React and ReactDOM?
 
-Why is ReactDOM separated from React?
+Great question! Understanding the difference between **React** and **ReactDOM** is essential because they serve **different purposes** in the React ecosystem:
+
+---
+
+## 🧠 **React vs ReactDOM**
+
+| Feature        | `react`                                | `react-dom`                                  |
+|----------------|-----------------------------------------|-----------------------------------------------|
+| **Purpose**    | Core library for building UI components | DOM-specific methods to render React to the web |
+| **Used For**   | Creating and managing components, hooks, context, etc. | Rendering to the DOM, managing DOM updates     |
+| **Platform**   | Platform-agnostic (can be used for web, native, etc.) | Specific to **web apps** only                 |
+
+---
+
+## 🔍 Example Usage:
+
+### `react` — Component logic and hooks:
+
+```jsx
+import React, { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>Count: {count}</button>;
+}
+```
+
+### `react-dom` — Rendering to the DOM:
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Counter from './Counter';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Counter />);
+```
+
+---
+
+## 🧩 Why Split Into Two Libraries?
+
+1. **Separation of concerns**: React handles UI and component logic, while ReactDOM deals with rendering and DOM interactions.
+2. **Platform flexibility**: You can use `react-native` for mobile apps, and it uses `react` (not `react-dom`) for shared logic.
+
+---
+
+## 🔧 Summary
+
+| Library     | Role                                  |
+|-------------|----------------------------------------|
+| `react`     | Defines components, hooks, lifecycle, etc. |
+| `react-dom` | Renders components into the browser DOM |
+
+---
+
 
 How do you use the React label element?
 
+Using the `<label>` element in **React** is nearly the same as in regular HTML, but there are a few React-specific best practices and syntax tweaks you should know:
+
+---
+
+## ✅ 1. **Basic Usage (with `htmlFor`)**
+
+In HTML, you’d use `for` to associate a label with an input.  
+In React, use `htmlFor` (camelCase version) instead:
+
+```jsx
+<label htmlFor="email">Email:</label>
+<input type="email" id="email" />
+```
+
+### 🔍 Why `htmlFor` instead of `for`?
+- Because `for` is a **reserved word in JavaScript**, JSX uses `htmlFor` to avoid conflicts.
+
+---
+
+## ✅ 2. **Wrapping the Input (Alternative Way)**
+
+If the input is **inside** the label, you don’t need `htmlFor`:
+
+```jsx
+<label>
+  Email:
+  <input type="email" />
+</label>
+```
+
+---
+
+## ✅ 3. **Using Label with State (Example)**
+
+```jsx
+function LoginForm() {
+  const [email, setEmail] = React.useState("");
+
+  return (
+    <form>
+      <label htmlFor="email">Email:</label>
+      <input
+        id="email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+    </form>
+  );
+}
+```
+
+---
+
+## ⚠️ Common Mistakes
+
+| Mistake                       | Fix                             |
+|------------------------------|----------------------------------|
+| Using `for` instead of `htmlFor` | ✅ Use `htmlFor="inputId"`     |
+| Forgetting to add `id` to input | Add `id` that matches `htmlFor` |
+| No label for input            | Add label for accessibility     |
+
+---
+
+## 🧠 Accessibility Tip
+
+Using `<label>` correctly improves accessibility:
+- Screen readers can better understand what each input is for.
+- Clicking the label focuses the input.
+
+---
+
+### TL;DR
+
+- ✅ Use `htmlFor` instead of `for` in React.
+- ✅ Use `id` on the input to link it.
+- ✅ Labels improve UX and accessibility.
+
+---
+
 How do you combine multiple inline style objects?
+
+In React, if you want to **combine multiple inline style objects**, you can use:
+
+- **The spread operator (`...`)**
+- **Utility functions (like `Object.assign`)**
+- **Optional chaining or conditional styles**
+
+---
+
+## ✅ 1. **Using the Spread Operator**
+
+```jsx
+const baseStyle = {
+  color: 'white',
+  padding: '10px',
+};
+
+const highlightStyle = {
+  backgroundColor: 'blue',
+};
+
+const combinedStyle = {
+  ...baseStyle,
+  ...highlightStyle,
+};
+
+<div style={combinedStyle}>Hello</div>
+```
+
+> Later styles **override** earlier ones if there's a conflict.
+
+---
+
+## ✅ 2. **Directly in JSX**
+
+```jsx
+<div style={{ ...baseStyle, ...highlightStyle }}>Hello</div>
+```
+
+---
+
+## ✅ 3. **With Conditional Styles**
+
+```jsx
+const isActive = true;
+
+<div
+  style={{
+    ...baseStyle,
+    ...(isActive && { border: '2px solid lime' }),
+  }}
+>
+  Hello
+</div>
+```
+
+- If `isActive` is `true`, the border gets added.
+- If `false`, it doesn't add anything.
+
+---
+
+## ✅ 4. **Using `Object.assign()` (less common)**
+
+```jsx
+const combinedStyle = Object.assign({}, baseStyle, highlightStyle);
+```
+
+- This works too but is more verbose than spreading.
+
+---
+
+### 🔥 Tip:
+React style objects must use **camelCase** for CSS properties:
+
+```jsx
+const style = {
+  backgroundColor: 'tomato', // ✅
+  // background-color: 'tomato' ❌ (invalid in React)
+};
+```
+
+---
+
+## TL;DR
+
+| Method           | Example                                      |
+|------------------|----------------------------------------------|
+| Spread Operator  | `{ ...a, ...b }`                             |
+| Direct in JSX    | `<div style={{ ...a, ...b }}>`               |
+| Conditional      | `{ ...(flag && { border: '1px solid red' }) }` |
+| Object.assign    | `Object.assign({}, a, b)`                    |
+
+---
+
 
 How do you re-render the view when the browser is resized?
 
+To **re-render the view when the browser is resized** in React, you can listen for the `resize` event using the `window` object and update component state when it changes. Updating state triggers a re-render — that’s the key!
+
+---
+
+## ✅ Step-by-Step (Functional Component with Hooks)
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function WindowSize() {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    <div>
+      <p>Width: {windowSize.width}px</p>
+      <p>Height: {windowSize.height}px</p>
+    </div>
+  );
+}
+```
+
+---
+
+## 🧠 Key Concepts
+
+| Concept       | Why it matters                          |
+|---------------|------------------------------------------|
+| `useEffect`   | Runs the resize listener on mount        |
+| Cleanup       | Avoids memory leaks on unmount           |
+| `useState`    | Updates state → triggers re-render       |
+| `window.innerWidth` / `innerHeight` | Get current size  |
+
+---
+
+## ✅ Alternate with `useLayoutEffect` (if layout depends on size)
+
+If the resize needs to be handled before painting, use `useLayoutEffect` instead of `useEffect`.
+
+---
+
+## ✅ Optional: Debounce Resize (performance)
+
+```bash
+npm install lodash
+```
+
+```jsx
+import debounce from 'lodash/debounce';
+
+useEffect(() => {
+  const handleResize = debounce(() => {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+  }, 200);
+
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+```
+
+---
+
+## TL;DR
+
+- ✅ Listen to `resize` with `window.addEventListener`
+- ✅ Update state → React re-renders
+- ✅ Clean up listeners on unmount
+- 🔥 Optional: Debounce for performance on rapid resize
+
+---
+
+
 How do you pretty-print JSON with React?
+To **pretty-print JSON in React**, you can use `JSON.stringify()` with optional formatting parameters and display the result using `<pre>` or syntax highlighting if you want it fancy.
+
+---
+
+## ✅ Basic Pretty Print Using `<pre>`
+
+```jsx
+function PrettyJson({ data }) {
+  return (
+    <pre>
+      {JSON.stringify(data, null, 2)}
+    </pre>
+  );
+}
+```
+
+### Explanation:
+- `data`: your JSON object
+- `null`: replacer (not used here)
+- `2`: indentation (2 spaces for readability)
+
+---
+
+## 🔍 Example Usage
+
+```jsx
+const user = {
+  name: "Jane Doe",
+  age: 28,
+  skills: ["React", "Node", "GraphQL"]
+};
+
+<PrettyJson data={user} />
+```
+
+---
+
+## 🎨 Optional: Add Styling
+
+```jsx
+<pre style={{ background: "#f0f0f0", padding: "1rem", borderRadius: "8px" }}>
+  {JSON.stringify(data, null, 2)}
+</pre>
+```
+
+---
+
+## 🔥 Bonus: With Syntax Highlighting
+
+If you want to go further, use a package like [`react-json-view`](https://github.com/mac-s-g/react-json-view):
+
+```bash
+npm install react-json-view
+```
+
+```jsx
+import ReactJson from 'react-json-view';
+
+<ReactJson src={data} theme="monokai" />
+```
+
+---
+
+## TL;DR
+
+| Method                  | Output Style       | Use Case                            |
+|-------------------------|--------------------|-------------------------------------|
+| `JSON.stringify(obj, null, 2)` + `<pre>` | Text-based, simple | Built-in, good for debugging         |
+| `react-json-view`       | Interactive        | Advanced UIs, collapsible views     |
+
+---
+
 
 Why can’t you update props in React?
 
+Great question — this is one of the core principles of how React works! Let's break it down:
+
+---
+
+## ❓ Why **can’t you update props** in React?
+
+Because **props are read-only** — they are passed **from parent to child** and should **never be modified** by the child component.
+
+---
+
+## 🧠 Analogy
+
+Think of props like **function arguments**:
+
+```js
+function greet(name) {
+  name = "Someone else"; // You can do this, but it's bad style!
+}
+```
+
+Just like how you usually don't mutate arguments in functions, in React, you **don’t mutate props inside a component**.
+
+---
+
+## ✅ React Design Philosophy
+
+| Concept       | Explanation                            |
+|---------------|----------------------------------------|
+| 🔒 **Immutability** | Props are meant to be immutable. This helps React optimize re-renders. |
+| 🔁 **One-way data flow** | Data flows **down** from parent to child. Children **cannot push data back** by modifying props. |
+| 🔧 **State is local** | If a component needs to manage data, it should use `state` or ask the parent to update the value via a callback. |
+
+---
+
+## 🛑 Example of What **Not** to Do
+
+```jsx
+function MyComponent(props) {
+  props.title = "New Title"; // ❌ Don't do this
+  return <h1>{props.title}</h1>;
+}
+```
+
+---
+
+## ✅ Correct Way: Ask Parent to Handle It
+
+```jsx
+function Parent() {
+  const [title, setTitle] = useState("Hello");
+
+  return <Child title={title} onChangeTitle={() => setTitle("New Title")} />;
+}
+
+function Child({ title, onChangeTitle }) {
+  return (
+    <div>
+      <h1>{title}</h1>
+      <button onClick={onChangeTitle}>Change Title</button>
+    </div>
+  );
+}
+```
+
+---
+
+## 🔥 TL;DR
+
+- ❌ You can’t update props because they're read-only.
+- ✅ Use **state** to manage internal changes.
+- ✅ Use **callbacks** to ask the parent to update props.
+
+---
+
+
 How do you focus an input element on page load?
+
+To **focus an input element on page load in React**, you can use the `useRef` hook to get a reference to the input and call `.focus()` inside a `useEffect` that runs once when the component mounts.
+
+---
+
+## ✅ Example: Auto-focus an Input on Mount
+
+```jsx
+import React, { useEffect, useRef } from 'react';
+
+function AutoFocusInput() {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus(); // focuses the input on page load
+  }, []);
+
+  return (
+    <div>
+      <label htmlFor="name">Name:</label>
+      <input ref={inputRef} id="name" type="text" />
+    </div>
+  );
+}
+```
+
+---
+
+## 🔍 Key Concepts
+
+| Hook      | Purpose                                    |
+|-----------|--------------------------------------------|
+| `useRef`  | Creates a reference to the input element   |
+| `useEffect` | Runs code after the component mounts     |
+| `.focus()` | Calls native DOM method to focus input    |
+
+---
+
+## ⚠️ Things to Watch For
+
+- `inputRef.current` might be `null` on the first render — always check before calling `.focus()`.
+- This works only in client-side rendering — if you're using SSR (like Next.js), guard it with `typeof window !== "undefined"` if needed.
+
+---
+
+## TL;DR
+
+- 🧠 Use `useRef()` to reference the input.
+- 🚀 Use `useEffect()` to trigger `.focus()` after mount.
+- ✅ Simple and clean!
+
+---
+
 
 How can you find the version of React at runtime in the browser?
 
+To find the version of React at **runtime** in the browser, you can access the `React` object (if it is available globally) and check its version.
+
+### Here’s how you can do it:
+
+### ✅ 1. **Using `React.version`**
+
+If React is available globally (i.e., you're using a CDN or React is globally scoped), you can access `React.version` directly in the browser’s developer tools:
+
+1. Open the **Developer Tools** (right-click on the page → **Inspect** → **Console**).
+2. Type the following in the console:
+
+```js
+console.log(React.version);
+```
+
+This will output the version of React being used.
+
+### Example Output:
+
+```js
+"18.2.0"
+```
+
+---
+
+### ✅ 2. **If React is Not Globally Available**
+
+If React is not globally scoped (like when you're using a bundler like Webpack, Parcel, or Next.js), you won't be able to access `React.version` directly in the browser console. However, you can still find the version through your **build tools**.
+
+#### Steps for Webpack (or similar bundlers):
+- In your `package.json`, look under **dependencies** for the React version:
+
+```json
+"dependencies": {
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0"
+}
+```
+
+#### Steps for `npm`:
+- Run the following in your terminal:
+
+```bash
+npm list react
+```
+
+This will show the installed version of React in your project.
+
+---
+
+### TL;DR:
+
+- **In browser console**: `console.log(React.version);`
+- **If React is bundled**: Check the `package.json` or use `npm list react`.
+
+---
+
 How do you add Google Analytics for React Router?
+To **add Google Analytics** for **React Router**, you need to send pageview events to Google Analytics whenever the route changes. You can achieve this by listening to **route changes** and calling `gtag` or `window.ga` (depending on how you're using Google Analytics) each time the route changes.
+
+---
+
+### ✅ Step-by-Step Guide to Add Google Analytics for React Router
+
+#### 1. **Install Google Analytics**
+
+First, make sure you have Google Analytics set up for your project. If you haven't added Google Analytics to your app, you'll need to do so:
+
+- **Using `gtag.js`** (recommended for most modern setups):
+
+Add this to your `index.html` (inside the `<head>` tag):
+
+```html
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'YOUR_TRACKING_ID');  // Replace with your Google Analytics tracking ID
+</script>
+```
+
+#### 2. **Install React Router (If Not Already Installed)**
+
+```bash
+npm install react-router-dom
+```
+
+#### 3. **Track Route Changes with Google Analytics**
+
+To **track pageviews** whenever the route changes, use the `useEffect` hook and `useLocation` hook from `react-router-dom` to listen for route changes.
+
+```jsx
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+function usePageViews() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Google Analytics (gtag.js) tracking page view
+    if (window.gtag) {
+      window.gtag('event', 'page_view', {
+        page_path: location.pathname + location.search,
+      });
+    }
+
+    // Alternatively, if you are using Universal Analytics (analytics.js):
+    if (window.ga) {
+      window.ga('set', 'page', location.pathname + location.search);
+      window.ga('send', 'pageview');
+    }
+  }, [location]);
+}
+
+function App() {
+  usePageViews();
+
+  return (
+    <div>
+      <h1>My React App</h1>
+      {/* Your routing setup */}
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+### 🧠 **How It Works**
+
+1. **`useLocation`**: React Router's `useLocation` hook provides the current URL (path, query string, etc.) whenever it changes.
+2. **`useEffect`**: The `useEffect` hook runs every time the location changes, which means it will trigger whenever the route changes.
+3. **Google Analytics Event**: You call `gtag('event', 'page_view')` with the current URL to notify Google Analytics about the new page view.
+
+---
+
+### 🔧 Notes
+
+- Ensure that the Google Analytics script (`gtag.js` or `analytics.js`) is correctly loaded in your `index.html` file, as shown above.
+- If you're using a **single-page application (SPA)**, Google Analytics won't automatically track pageviews when the URL changes. This is why you need to manually send pageview events whenever the route changes.
+
+---
+
+### ⚡ Optional: Using `react-ga` or `react-gtm`
+
+You can also use a library like **`react-ga`** (for Universal Analytics) or **`react-gtm`** (for Google Tag Manager) to simplify the integration:
+
+```bash
+npm install react-ga
+```
+
+Example with **`react-ga`**:
+
+```jsx
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('YOUR_TRACKING_ID');
+
+function usePageViews() {
+  const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.pageview(location.pathname + location.search);
+  }, [location]);
+}
+
+function App() {
+  usePageViews();
+
+  return (
+    <div>
+      <h1>My React App</h1>
+      {/* Your routing setup */}
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+## TL;DR
+
+1. Install Google Analytics using `gtag.js`.
+2. Track route changes with `useLocation` from React Router.
+3. Call `gtag('event', 'page_view')` to send the pageview event to Google Analytics.
+4. Alternatively, use **`react-ga`** for simplified integration.
+
 
 How do you apply vendor prefixes to inline styles in React?
 
+In React, **inline styles** are applied as **JavaScript objects** with **camelCase properties**. However, **vendor prefixes** (like `-webkit-`, `-moz-`, etc.) aren't automatically added. React expects styles to be written using the **standard** CSS properties, but if certain styles need vendor prefixes, you must manually include them.
+
+### ✅ 1. **Manually Adding Vendor Prefixes**
+
+To add vendor prefixes, you can explicitly include them in the style object like so:
+
+```jsx
+const styles = {
+  display: 'flex',
+  WebkitFlexDirection: 'column',  // For Safari
+  MozFlexDirection: 'column',     // For Firefox
+  msFlexDirection: 'column',      // For older IE
+};
+
+function App() {
+  return <div style={styles}>Hello</div>;
+}
+```
+
+---
+
+### ✅ 2. **Using Libraries for Automatic Prefixing**
+
+Manually adding vendor prefixes can be tedious, especially when dealing with complex styles. A better approach is to use a library like **`autoprefixer`** or **`inline-style-prefixer`**, which automatically adds necessary prefixes based on the properties you're using.
+
+#### **Using `inline-style-prefixer`**:
+
+1. Install the package:
+
+```bash
+npm install inline-style-prefixer
+```
+
+2. Use it to automatically add vendor prefixes:
+
+```jsx
+import Prefixer from 'inline-style-prefixer';
+
+const prefixer = new Prefixer();
+
+const styles = {
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const prefixedStyles = prefixer.prefix(styles);
+
+function App() {
+  return <div style={prefixedStyles}>Hello</div>;
+}
+```
+
+The `prefixer.prefix()` function will automatically add vendor prefixes like `-webkit-`, `-moz-`, etc., based on the style properties.
+
+---
+
+### ✅ 3. **Using Styled Components**
+
+If you're using a CSS-in-JS library like **Styled Components**, vendor prefixing is handled **automatically** by the library.
+
+Example with **Styled Components**:
+
+```bash
+npm install styled-components
+```
+
+```jsx
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+function App() {
+  return <Wrapper>Hello</Wrapper>;
+}
+```
+
+Styled Components takes care of vendor prefixes for you.
+
+---
+
+### TL;DR
+
+- ✅ **Manually add prefixes**: Use `-webkit-`, `-moz-`, etc., in the inline style object.
+- ✅ **Automate it**: Use **`inline-style-prefixer`** or **`autoprefixer`** to add vendor prefixes automatically.
+- ✅ **Styled Components**: Libraries like **Styled Components** handle vendor prefixes for you.
+
 How do you import and export components using React and ES6?
+
+In React, you can **import** and **export** components using **ES6 module syntax**. Here's how you can do it:
+
+---
+
+## ✅ 1. **Exporting Components**
+
+There are two primary ways to **export** a component in React: **named exports** and **default exports**.
+
+### **Named Export**
+
+In this case, you export the component by name. You can have multiple named exports in a file.
+
+```jsx
+// MyComponent.js
+export function MyComponent() {
+  return <div>Hello, I am a named export component!</div>;
+}
+```
+
+### **Default Export**
+
+You can export a single component as the default export. This is commonly used when the file only contains one main component.
+
+```jsx
+// MyComponent.js
+export default function MyComponent() {
+  return <div>Hello, I am the default exported component!</div>;
+}
+```
+
+You can also have a default export with a **named export** in the same file.
+
+```jsx
+// MyComponent.js
+export default function MyComponent() {
+  return <div>Hello, I am the default export component!</div>;
+}
+
+export const helperFunction = () => {
+  console.log('This is a helper function');
+};
+```
+
+---
+
+## ✅ 2. **Importing Components**
+
+You can import components either as **default imports** or **named imports**, depending on how they were exported.
+
+### **Importing a Default Export**
+
+If a component is **default exported**, you can import it like this:
+
+```jsx
+// App.js
+import MyComponent from './MyComponent'; // Default import
+
+function App() {
+  return (
+    <div>
+      <MyComponent />
+    </div>
+  );
+}
+```
+
+### **Importing Named Exports**
+
+If you have **named exports**, you need to import them with the same name:
+
+```jsx
+// App.js
+import { MyComponent } from './MyComponent'; // Named import
+
+function App() {
+  return (
+    <div>
+      <MyComponent />
+    </div>
+  );
+}
+```
+
+You can also import multiple components at once:
+
+```jsx
+// App.js
+import { MyComponent, helperFunction } from './MyComponent'; // Multiple named imports
+
+function App() {
+  helperFunction(); // You can use the named helper function
+  return <MyComponent />;
+}
+```
+
+### **Renaming Imports**
+
+If you want to **rename** a named import, you can use `as`:
+
+```jsx
+// App.js
+import { MyComponent as CustomComponent } from './MyComponent'; // Rename the import
+
+function App() {
+  return <CustomComponent />;
+}
+```
+
+---
+
+## ✅ 3. **Summary of Import/Export Syntax**
+
+| Export Type         | Export Syntax                             | Import Syntax                               |
+|---------------------|-------------------------------------------|---------------------------------------------|
+| Default Export      | `export default MyComponent;`             | `import MyComponent from './MyComponent';`   |
+| Named Export        | `export function MyComponent() {...}`     | `import { MyComponent } from './MyComponent';`|
+| Multiple Named Exports | `export { MyComponent, helperFunction };` | `import { MyComponent, helperFunction } from './MyComponent';`|
+| Renaming Imports    | `import { MyComponent as CustomComponent } from './MyComponent';` | `import { MyComponent as CustomComponent } from './MyComponent';` |
+
+---
+
+## TL;DR
+
+1. **Named Export**: `export function MyComponent() {...}`
+2. **Default Export**: `export default function MyComponent() {...}`
+3. **Importing**: Use `import MyComponent from './MyComponent';` for default and `import { MyComponent } from './MyComponent';` for named exports.
+
+---
+
 
 What are the exceptions to React component naming?
 
+In React, **naming conventions** for components are usually straightforward, but there are a few **exceptions** and rules that you should be aware of to avoid issues.
+
+Here’s a breakdown of the key exceptions and rules regarding React component naming:
+
+---
+
+## ✅ 1. **Component Names Should Start with a Capital Letter**
+
+React components must start with an uppercase letter. This is because React distinguishes between **HTML elements** (lowercase) and **custom components** (uppercase).
+
+### Example:
+
+```jsx
+// Correct
+function MyComponent() {
+  return <div>Hello!</div>;
+}
+
+// Incorrect
+function myComponent() {  // React will treat this as an HTML element
+  return <div>Hello!</div>;
+}
+```
+
+React treats **`<div>`**, **`<span>`**, etc., as HTML elements, but a **capitalized name** like **`<MyComponent />`** is treated as a React component.
+
+---
+
+## ✅ 2. **React Components Must Be Named Using CamelCase**
+
+While React components start with an uppercase letter, their **properties** (i.e., props, methods, etc.) and functions typically follow **camelCase** conventions.
+
+For example, if your component contains multiple words in its name:
+
+```jsx
+// Correct
+function MyComplexComponent() { ... }
+
+// Incorrect
+function my_complex_component() { ... }
+```
+
+The use of **camelCase** for properties or method names inside components (e.g., `handleClick`, `fetchData`) is standard in JavaScript.
+
+---
+
+## ✅ 3. **Avoid Conflicts with HTML Tag Names**
+
+If you name a component using a name that conflicts with an HTML tag (like `button`, `div`, `input`, etc.), React might interpret it as a **native HTML element**, not a custom React component.
+
+For instance, this is problematic:
+
+```jsx
+// Avoid naming a component as an HTML tag
+function button() {
+  return <button>Click me</button>;
+}
+
+// React will treat it as a native HTML <button> tag, not a custom component
+```
+
+### Solution:
+Choose a name that doesn’t conflict with built-in HTML elements. For example:
+
+```jsx
+function CustomButton() {
+  return <button>Click me</button>;
+}
+```
+
+---
+
+## ✅ 4. **Avoid Naming Conflicts with Reserved JavaScript Keywords**
+
+Just like in JavaScript, you cannot use **reserved keywords** as component names. For example, naming a component **`function`** would conflict with the reserved keyword for defining functions.
+
+```jsx
+// Avoid
+function function() { ... } // Invalid name, 'function' is a reserved keyword
+```
+
+### Solution:
+Always ensure your component names don’t conflict with JavaScript reserved words or future JavaScript features.
+
+---
+
+## ✅ 5. **Component Names Should Reflect Their Purpose**
+
+Although this is more of a convention than a strict rule, it's **best practice** to name components based on their **purpose** or **role** in the UI. This helps to maintain clarity in your codebase.
+
+For example:
+- **`UserProfile`** for a component displaying user information.
+- **`Button`** for a reusable button component.
+- **`Navbar`** for a navigation bar component.
+
+Avoid ambiguous names like `Component1` or `Widget`, as they don't convey useful information about the component's role.
+
+---
+
+## ✅ 6. **File Naming Conventions**
+
+Although not part of React itself, it’s common practice to **match your component file names** with the component names (using **PascalCase**). This helps with consistency and understanding the structure of your project.
+
+For example:
+
+```jsx
+// Correct: File and component name are consistent
+// File: MyComponent.js
+function MyComponent() { ... }
+
+// Incorrect: File and component name don't match
+// File: mycomponent.js
+function MyComponent() { ... }
+```
+
+---
+
+### TL;DR
+
+- **Uppercase First Letter**: React components must start with a capital letter.
+- **CamelCase for Methods/Props**: Use camelCase for method and prop names inside components.
+- **Avoid HTML Tag Name Conflicts**: Don’t name components after built-in HTML tags (like `button`, `div`, etc.).
+- **No Reserved Keywords**: Don’t use JavaScript reserved keywords as component names.
+- **Descriptive Names**: Name components based on their function (e.g., `Button`, `Navbar`).
+- **File Names**: File names should follow **PascalCase** (e.g., `MyComponent.js`).
+
+---
+
+
 Is it possible to use async/await in plain React?
 
-What are common folder structures for React?
+Yes, it is **possible to use `async/await`** in **plain React**. React itself is built on JavaScript, so any JavaScript feature, including **`async/await`**, can be used in your React components.
 
-What are popular packages for animation?
+However, there are some important things to note about **`async/await`** in React, especially when working with components and lifecycle methods.
+
+---
+
+## ✅ **How to Use `async/await` in React**
+
+### 1. **Using `async/await` Inside `useEffect`**
+
+If you're working with **function components** and want to use `async/await` for things like **fetching data** in a side-effect, you should not directly make the `useEffect` callback **async**. Instead, use an **inner async function**.
+
+### Example of using `async/await` in `useEffect`:
+
+```jsx
+import React, { useEffect, useState } from 'react';
+
+function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://api.example.com/data');
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array means this runs once when the component mounts
+
+  return (
+    <div>
+      <h1>Data</h1>
+      {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
+    </div>
+  );
+}
+
+export default App;
+```
+
+In this example:
+- The `fetchData` function inside the `useEffect` is marked as `async`, allowing us to use `await` to wait for the fetch to complete before updating the state with the fetched data.
+
+### 2. **Using `async/await` in Event Handlers**
+
+You can also use `async/await` inside event handlers like button clicks.
+
+```jsx
+import React, { useState } from 'react';
+
+function App() {
+  const [message, setMessage] = useState('');
+
+  const handleClick = async () => {
+    const response = await fetch('https://api.example.com/message');
+    const data = await response.json();
+    setMessage(data.message);
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick}>Fetch Message</button>
+      <p>{message}</p>
+    </div>
+  );
+}
+
+export default App;
+```
+
+In this example:
+- When the button is clicked, `handleClick` uses `async/await` to fetch a message from an API and update the state.
+
+### 3. **Using `async/await` in Class Components**
+
+If you're working with **class components**, you can use `async/await` in **lifecycle methods** like `componentDidMount` or event handlers.
+
+### Example in a **Class Component**:
+
+```jsx
+import React, { Component } from 'react';
+
+class App extends Component {
+  state = { data: null };
+
+  async componentDidMount() {
+    try {
+      const response = await fetch('https://api.example.com/data');
+      const result = await response.json();
+      this.setState({ data: result });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  render() {
+    const { data } = this.state;
+
+    return (
+      <div>
+        <h1>Data</h1>
+        {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
+      </div>
+    );
+  }
+}
+
+export default App;
+```
+
+In this example:
+- The `async/await` syntax is used inside the `componentDidMount` lifecycle method to fetch data from an API.
+
+---
+
+## 🚨 **Things to Keep in Mind**
+
+### 1. **Avoid Making `useEffect` Directly `async`**
+You **cannot** mark the `useEffect` callback function itself as `async` because it returns a function (or nothing), and `async` functions always return a promise. Instead, create a **nested async function** inside the `useEffect` as shown in the earlier examples.
+
+### 2. **Error Handling**
+Always handle errors properly when using `async/await`. If the promise is rejected (e.g., network request fails), make sure you **catch** the error to prevent unhandled promise rejections.
+
+```js
+try {
+  const response = await fetch('https://example.com');
+  const data = await response.json();
+  setData(data);
+} catch (error) {
+  console.error('Failed to fetch:', error);
+}
+```
+
+### 3. **Cleaning Up Async Code in `useEffect`**
+If your async function involves updating the state, ensure that you handle **component unmounting** gracefully. When a component unmounts before an async operation completes, it could lead to a **memory leak** or **state update on an unmounted component**.
+
+You can avoid this by using a cleanup function or tracking the component's mounted state:
+
+```jsx
+useEffect(() => {
+  let isMounted = true; // Track whether the component is mounted
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('https://api.example.com/data');
+      const result = await response.json();
+      if (isMounted) {
+        setData(result);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  fetchData();
+
+  return () => {
+    isMounted = false; // Cleanup the mounted state when component unmounts
+  };
+}, []);
+```
+
+---
+
+## TL;DR
+- **Yes**, you can use `async/await` in **React** components (both class and function components).
+- For **function components**, use `async/await` in `useEffect` with an inner async function.
+- Handle errors and ensure proper cleanup to avoid issues like unhandled promises or memory leaks.
+
+
+
 
 What are the benefits of style modules?
+**CSS Modules** are a way of writing **scoped and modular CSS** in a React (or any other JavaScript) application. They help avoid common issues with traditional CSS, such as global namespace conflicts and unpredictable styling behavior. Here are the key **benefits of using CSS Modules**:
+
+---
+
+### ✅ **1. Scoped Styles**
+One of the primary benefits of CSS Modules is that the styles are **scoped** to the component by default. Each class name is automatically **unique** and tied to the component that uses it, preventing global namespace conflicts.
+
+**Example**:
+
+```jsx
+// Button.module.css
+.button {
+  background-color: blue;
+  color: white;
+}
+
+// Button.js
+import React from 'react';
+import styles from './Button.module.css';
+
+function Button() {
+  return <button className={styles.button}>Click Me</button>;
+}
+```
+
+In this case:
+- The class `button` is scoped to the `Button` component, meaning other components won't accidentally override or be overridden by it.
+
+### ✅ **2. No Global Namespace Conflicts**
+Traditional global CSS can lead to **style clashes** if two components use the same class name, even though they represent different elements on the page. With **CSS Modules**, the class names are locally scoped and **automatically hashed**, so this problem is eliminated.
+
+For example, in traditional CSS:
+
+```css
+/* Global.css */
+.button {
+  background-color: red;
+}
+```
+
+Both components that use `.button` will be affected, even if they should have different styles.
+
+In CSS Modules, this doesn't happen:
+
+```css
+/* Button.module.css */
+.button {
+  background-color: red;
+}
+```
+
+The class name might be transformed into something like `Button_button_1a2b3c` automatically, so there’s no chance of name collision with other components.
+
+### ✅ **3. Easier to Maintain and Scale**
+With CSS Modules, styles are organized by component rather than globally. This makes the styles much easier to maintain because:
+- **Component-specific styles** are stored in the same file as the component itself.
+- **Modularization** helps to avoid bloated global stylesheets.
+
+As your app grows, it's easier to track down and modify styles when they’re isolated to individual components.
+
+### ✅ **4. Prevents Overriding and Specificity Issues**
+In traditional CSS, it’s easy to encounter problems with **CSS specificity** and having to write more and more complex selectors to override styles.
+
+With CSS Modules:
+- You don’t need to worry about **specificity wars**.
+- You don’t need to create complex selectors to override styles.
+- Each class is scoped to its component, making it **easy to write predictable, conflict-free CSS**.
+
+### ✅ **5. Supports Dynamic Styles**
+CSS Modules also allow you to **dynamically apply classes** based on component state or props. This is useful for conditionally applying styles (e.g., for active or disabled buttons).
+
+```jsx
+// Button.module.css
+.button {
+  background-color: blue;
+}
+.buttonActive {
+  background-color: green;
+}
+
+// Button.js
+import React, { useState } from 'react';
+import styles from './Button.module.css';
+
+function Button() {
+  const [isActive, setIsActive] = useState(false);
+
+  return (
+    <button
+      className={isActive ? styles.buttonActive : styles.button}
+      onClick={() => setIsActive(!isActive)}
+    >
+      Click Me
+    </button>
+  );
+}
+```
+
+In this case, the `buttonActive` class is applied conditionally when the button is clicked, and the styles remain **modular**.
+
+### ✅ **6. Better Performance (CSS Bundling and Tree Shaking)**
+With CSS Modules, only the **used styles** are bundled into the final output. If a style isn't used in your component, it won’t be included in the final CSS file, leading to **smaller file sizes**.
+
+In a typical setup with Webpack, the unused CSS classes are **tree-shaken** and discarded.
+
+### ✅ **7. Ease of Use with Preprocessors**
+CSS Modules can be used with **CSS preprocessors** like **Sass** or **Less**. You can use `.module.scss` or `.module.less` to write scoped Sass or Less styles, keeping the benefits of modularization while still using the features of these preprocessors.
+
+```scss
+/* Button.module.scss */
+.button {
+  background-color: red;
+  &:hover {
+    background-color: green;
+  }
+}
+```
+
+This can be seamlessly used within your React components, maintaining the modular and scoped nature.
+
+---
+
+## ✅ **8. Developer Experience (DX) Improvements**
+CSS Modules provide several improvements to the developer experience:
+- **Intellisense/Auto-completion**: Since each class name is scoped to the component, your IDE (such as VSCode) can provide **auto-completion** and help prevent typo-related issues.
+- **Easier Debugging**: When styles are scoped and unique, it's easier to debug CSS issues because you won't encounter the ambiguity of which component's style is being applied.
+
+---
+
+## ✅ **9. Integration with React Tools**
+Many **React tools** (such as **Styled Components** or **Emotion**) support or are compatible with **CSS Modules**, allowing for more flexibility in how you structure your styles. Even though **Styled Components** and **Emotion** are alternative ways to style React components (using JavaScript), CSS Modules can work seamlessly alongside them.
+
+---
+
+### **TL;DR of Benefits:**
+- **Scoped styles**: Avoid naming conflicts.
+- **No global conflicts**: Styles are unique to components.
+- **Easier maintenance**: Styles are organized by component.
+- **Prevents specificity issues**: Simplifies CSS rules.
+- **Dynamic styling**: Easily apply styles based on component state/props.
+- **Better performance**: Tree shaking removes unused styles.
+- **Works with preprocessors**: Use Sass/SCSS with modules.
+- **Improved DX**: IDE support for auto-completion and better debugging.
+
+---
+
+### When to Use CSS Modules?
+
+You might want to use CSS Modules if:
+- You’re building a **large-scale React app** and want to avoid global CSS conflicts.
+- You need **modular styles** for components that are reusable across different parts of the app.
+- You prefer a **clean separation of concerns** between structure (JS) and style (CSS).
+- You want to keep styles organized and scoped in a **maintainable way**.
+
+
 
 What are popular React-specific linters?
+
+In the React ecosystem, **linters** are essential for ensuring that your code adheres to best practices, is error-free, and maintains consistency across the codebase. Several React-specific linters and configurations are popular in the React community for enforcing coding standards, detecting potential issues, and improving the overall development experience.
+
+Here are the **most popular React-specific linters**:
+
+---
+
+### ✅ **1. ESLint (with React Plugin)**
+**[ESLint](https://eslint.org/)** is the most widely used JavaScript linter, and it can be extended for React projects using the **eslint-plugin-react**.
+
+- **Purpose**: ESLint analyzes your JavaScript (and JSX) code for issues and enforces coding standards.
+- **React Plugin**: The `eslint-plugin-react` plugin adds **React-specific linting rules**. It checks things like component naming conventions, lifecycle methods, hooks usage, and more.
+  
+#### Key Features:
+- **React-specific linting rules** for JSX, hooks, and component design.
+- **Customizable rules** for your project’s coding style.
+- Can be integrated into **prettier** for code formatting.
+
+#### Setup:
+1. Install ESLint and the React plugin:
+
+   ```bash
+   npm install eslint eslint-plugin-react --save-dev
+   ```
+
+2. Create an `.eslintrc` configuration file:
+
+   ```json
+   {
+     "extends": ["eslint:recommended", "plugin:react/recommended"],
+     "plugins": ["react"],
+     "parser": "babel-eslint",
+     "rules": {
+       "react/prop-types": "warn",
+       "react/jsx-uses-react": "off",
+       "react/jsx-uses-vars": "error"
+     },
+     "settings": {
+       "react": {
+         "version": "detect"
+       }
+     }
+   }
+   ```
+
+---
+
+### ✅ **2. eslint-plugin-react-hooks**
+**[eslint-plugin-react-hooks](https://www.npmjs.com/package/eslint-plugin-react-hooks)** is a dedicated plugin that focuses specifically on the **React hooks** API.
+
+- **Purpose**: Ensures that hooks are used properly within functional components and that rules like **useEffect**'s dependency arrays are respected.
+
+#### Key Features:
+- **Enforces hooks rules**: For example, ensures that hooks like `useState` and `useEffect` are used at the top level of functional components.
+- **Checks dependencies** in the hook dependency array to avoid unnecessary re-renders.
+- **Warns on improper ordering** of hooks in a component.
+
+#### Setup:
+1. Install the plugin:
+
+   ```bash
+   npm install eslint-plugin-react-hooks --save-dev
+   ```
+
+2. Add to the ESLint configuration:
+
+   ```json
+   {
+     "extends": ["plugin:react-hooks/recommended"]
+   }
+   ```
+
+---
+
+### ✅ **3. eslint-plugin-jsx-a11y**
+**[eslint-plugin-jsx-a11y](https://www.npmjs.com/package/eslint-plugin-jsx-a11y)** helps ensure your React components are **accessible** by providing linting rules that promote web accessibility best practices.
+
+- **Purpose**: Helps identify accessibility issues within JSX code, such as missing `alt` attributes for images, improper use of semantic HTML, and missing `aria-*` attributes.
+
+#### Key Features:
+- Enforces **accessible JSX** components.
+- Warns about missing or incorrect attributes for **form elements**, **images**, **buttons**, and more.
+- Improves the **accessibility** of your application.
+
+#### Setup:
+1. Install the plugin:
+
+   ```bash
+   npm install eslint-plugin-jsx-a11y --save-dev
+   ```
+
+2. Add it to your `.eslintrc`:
+
+   ```json
+   {
+     "extends": ["plugin:jsx-a11y/recommended"]
+   }
+   ```
+
+---
+
+### ✅ **4. eslint-plugin-react-native**
+For **React Native** projects, the `eslint-plugin-react-native` plugin provides React-specific linting rules tailored for mobile development.
+
+- **Purpose**: It includes rules specific to React Native, such as checking for the usage of deprecated components and ensuring that styles are defined correctly in React Native.
+
+#### Key Features:
+- Linting for **React Native-specific issues**, such as improper usage of components or incorrect styles.
+- Integration with **React Native's best practices**.
+
+#### Setup:
+1. Install the plugin:
+
+   ```bash
+   npm install eslint-plugin-react-native --save-dev
+   ```
+
+2. Add it to your `.eslintrc`:
+
+   ```json
+   {
+     "extends": ["plugin:react-native/all"]
+   }
+   ```
+
+---
+
+### ✅ **5. Prettier with ESLint**
+While **Prettier** isn't strictly a linter, it works well alongside ESLint to automatically **format code** in a consistent style. Combining **Prettier** with ESLint in a React project can help enforce both **code quality** (via ESLint) and **code style** (via Prettier).
+
+- **Purpose**: Automatically formats your code according to a consistent style, such as indentation, spacing, and line breaks.
+
+#### Key Features:
+- **Automatic formatting** on save.
+- Works alongside ESLint to fix formatting-related issues without changing the code logic.
+- **React and JSX-specific formatting**.
+
+#### Setup:
+1. Install Prettier and the ESLint Prettier plugin:
+
+   ```bash
+   npm install --save-dev prettier eslint-plugin-prettier eslint-config-prettier
+   ```
+
+2. Add Prettier configuration to `.eslintrc`:
+
+   ```json
+   {
+     "extends": [
+       "plugin:prettier/recommended",
+       "plugin:react/recommended"
+     ]
+   }
+   ```
+
+3. Create a `.prettierrc` file for Prettier configuration.
+
+---
+
+### ✅ **6. eslint-plugin-import**
+**[eslint-plugin-import](https://www.npmjs.com/package/eslint-plugin-import)** is focused on ensuring that import/export statements in JavaScript and React files are correct, which is particularly helpful for larger codebases where managing imports can become tricky.
+
+- **Purpose**: Enforces proper import/export syntax and order, ensuring that all dependencies are correctly imported.
+
+#### Key Features:
+- Ensures **correct import order** and eliminates unused imports.
+- Warns about missing dependencies or incorrect module imports.
+- Helps maintain **clear module boundaries** in large projects.
+
+#### Setup:
+1. Install the plugin:
+
+   ```bash
+   npm install eslint-plugin-import --save-dev
+   ```
+
+2. Add to `.eslintrc`:
+
+   ```json
+   {
+     "extends": ["plugin:import/errors", "plugin:import/warnings"]
+   }
+   ```
+
+---
+
+## 🧑‍💻 **Summary of Popular React Linters**:
+
+- **`eslint-plugin-react`**: Enforces best practices and React-specific coding standards.
+- **`eslint-plugin-react-hooks`**: Ensures correct usage of React hooks.
+- **`eslint-plugin-jsx-a11y`**: Ensures accessibility best practices in JSX.
+- **`eslint-plugin-react-native`**: Linting for React Native projects.
+- **Prettier with ESLint**: For automatic code formatting alongside linting.
+- **`eslint-plugin-import`**: Ensures correct and proper import/export usage.
+
+These tools help ensure **clean, maintainable, and accessible code** while promoting **best practices** in React development. You can use these linters individually or combine them to build a robust linting setup for your React project.
+
+
 
 ## React Router
 
