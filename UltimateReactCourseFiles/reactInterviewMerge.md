@@ -1,3 +1,79 @@
+Here is the **indexed list of questions** for the React file:
+
+### Indexed Questions:
+1. **What is React?**
+2. **What is the history behind React’s evolution?**
+3. **What are the major features of React?**
+4. **What is JSX?**
+5. **What is the difference between an Element and a Component?**
+6. **How do you create components in React?**
+7. **When should you use a Class Component over a Function Component?**
+8. **What are Pure Components?**
+9. **What is state in React?**
+10. **What are props in React?**
+11. **What is the difference between state and props?**
+12. **What is the difference between HTML and React event handling?**
+13. **What are synthetic events in React?**
+14. **What are inline conditional expressions?**
+15. **What is the Virtual DOM? How does the Virtual DOM work?**
+16. **Can you explain the difference between Shadow DOM and Virtual DOM?**
+17. **What is the difference between createElement and cloneElement?**
+18. **What is Lifting State Up in React?**
+19. **What are the limitations of Lifting State Up in React?**
+20. **What is a Higher-Order Component (HOC)?**
+21. **What is the `children` prop?**
+22. **Does the lazy function support named exports?**
+23. **Why does React use `className` instead of `class`?**
+24. **What are React Fragments?**
+25. **What are Stateless Components?**
+26. **What is PropTypes?**
+27. **What are the recommended ways for static type checking in React?**
+28. **What is `react-dom`?**
+29. **What is `ReactDOMServer`?**
+30. **How do you use innerHTML in React?**
+31. **How do you apply styles in React?**
+32. **What are the key differences between React Events and HTML DOM Events?**
+33. **What is the impact of using indexes as keys?**
+34. **Why should you be careful with spreading props on DOM elements?**
+35. **How do you implement Server-Side Rendering (SSR)?**
+36. **How do you enable production mode in React?**
+37. **Do Hooks replace render props and higher-order components?**
+38. **What is a switching component?**
+39. **What are React Mixins?**
+40. **What are the pointer events supported in React?**
+41. **Why should React component names start with a capital letter?**
+42. **How do you access props within attribute quotes?**
+43. **What is a React PropType array with shape?**
+44. **How do you conditionally apply class attributes?**
+45. **How do you re-render the view when the browser is resized?**
+46. **How do you pretty-print JSON with React?**
+47. **Why can’t you update props in React?**
+48. **How do you focus an input element on page load?**
+49. **How can you find the version of React at runtime in the browser?**
+50. **How do you add Google Analytics for React Router?**
+51. **How do you apply vendor prefixes to inline styles in React?**
+52. **How do you import and export components using React and ES6?**
+53. **What are the exceptions to React component naming?**
+54. **Is it possible to use async/await in plain React?**
+55. **What are the benefits of style modules?**
+56. **What are popular React-specific linters?**
+57. **What is React Router?**
+58. **How is React Router different from the history library?**
+59. **What are the components of React Router v6?**
+60. **What is the purpose of the push and replace methods of history?**
+61. **How do you programmatically navigate using React Router?**
+62. **Why do you get a "Router may have only one child element" warning?**
+63. **How do you handle nested routes in React Router v6?**
+64. **How do you implement a default or NotFound page?**
+65. **How do you get history in React Router?**
+66. **How do you perform an automatic redirect after login?**
+67. **What is React Intl?**
+68. **What are the two ways of formatting in React Intl?**
+69. **How do you use FormattedMessage as a placeholder with React Intl?**
+70. **How do you access the current locale with React Intl?**
+71. **How do you format a date using React Intl?**
+
+
 ## What is React?
 
 React is a **JavaScript library** used for building **user interfaces**, especially **single-page applications** where you need a fast, interactive experience.
