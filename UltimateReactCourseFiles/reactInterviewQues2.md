@@ -1,3 +1,132 @@
+Here are some additional **React interview questions** that you might have missed, categorized by difficulty and topic:
+
+---
+
+### **React Fundamentals**
+1. What is the **Virtual DOM**, and how does it improve performance?
+2. Explain the difference between **controlled** and **uncontrolled components**.
+3. What is the purpose of **keys** in React, and why are they important?
+4. How do **props** differ from **state** in React?
+5. What is the role of **defaultProps** in React?
+
+---
+
+### **React Lifecycle**
+6. What are the **lifecycle methods** available in React class components?
+7. Explain the role of **getDerivedStateFromProps** and why it is used.
+8. What is the **difference between componentDidMount and useEffect**?
+9. How do you handle **component cleanup** in React functional components?
+10. What is the **React Fiber architecture**, and how does it affect reconciliation?
+
+---
+
+### **React Hooks**
+11. What are **React Hooks**, and why were they introduced?
+12. Explain the difference between **useEffect** and **useLayoutEffect**.
+13. How does **useReducer** differ from **useState**, and when would you use it?
+14. What is the use of **useMemo** and **useCallback**, and how do they improve performance?
+15. How can you handle side effects in React using hooks?
+
+---
+
+### **Advanced React**
+16. What is **React Context**, and how is it different from Redux?
+17. How do you implement **error boundaries** in React?
+18. What are **Higher-Order Components (HOCs)**, and how do they work?
+19. Explain the **Render Props pattern** and provide an example.
+20. What are **Portals** in React, and when would you use them?
+
+---
+
+### **Performance Optimization**
+21. How do you prevent **unnecessary re-renders** in React?
+22. What is **React.memo**, and when should it be used?
+23. How can you optimize large lists in React?
+24. Explain the role of **reconciliation** in React for optimizing performance.
+25. What is the difference between **debouncing** and **throttling**, and how would you use them in React?
+
+---
+
+### **React Router**
+26. How does **React Router** manage routing in single-page applications?
+27. What is the difference between **useHistory** and **useNavigate** in React Router v6?
+28. How do you handle **dynamic routes** in React Router?
+29. What is the difference between **Switch** and **Routes** in React Router v6?
+30. How do you implement **protected routes** in React?
+
+---
+
+### **State Management**
+31. What is **Redux**, and how does it compare to React Context?
+32. What is the purpose of **middleware** in Redux, and how do you implement one?
+33. Explain the difference between **Redux Toolkit** and traditional Redux.
+34. What is **Recoil/Zustand**, and how does it differ from Redux or Context API?
+35. How do you manage **server-state** efficiently in React (e.g., React Query or SWR)?
+
+---
+
+### **Testing**
+36. How do you test a React component with **Jest** and **React Testing Library**?
+37. What is the difference between **shallow rendering** and **full rendering** in Enzyme?
+38. How do you test asynchronous operations in React?
+39. Explain snapshot testing and when it should be used.
+40. How would you test a custom React hook?
+
+---
+
+### **React with TypeScript**
+41. How do you type **props** and **state** in a React component with TypeScript?
+42. How do you type a **custom hook** in TypeScript?
+43. What are generics in TypeScript, and how are they used with React components?
+44. How do you type **functional components** that accept children in TypeScript?
+45. What is the difference between `React.FC` and a normal function component in TypeScript?
+
+---
+
+### **React and Backend Integration**
+46. How do you handle **authentication** in a React app?
+47. What is the difference between **Server-Side Rendering (SSR)** and **Client-Side Rendering (CSR)**?
+48. How do you optimize **API calls** in a React app?
+49. What are **WebSockets**, and how would you integrate them in a React app?
+50. How do you implement **lazy loading** and **code splitting** in React?
+
+---
+
+### **React Ecosystem**
+51. What is **Next.js**, and how does it enhance React?
+52. What are the benefits of using **React Query** for data fetching?
+53. Explain the difference between **SWR** and **React Query**.
+54. What is the purpose of **React DevTools**, and how do you use it for debugging?
+55. How do you optimize SEO in React applications?
+
+---
+
+### **Real-World Scenarios**
+56. How would you migrate a class component to a functional component using hooks?
+57. How do you handle **error logging** in a production React app?
+58. How would you manage **large forms** in React efficiently?
+59. How do you implement **internationalization (i18n)** in a React app?
+60. How do you handle performance issues in a React app with **React Profiler**?
+
+---
+
+### **Behavioral/Problem-Solving**
+61. How would you debug a React app that’s not rendering correctly?
+62. What steps would you take to optimize the performance of a React application?
+63. How do you handle accessibility (a11y) in React apps?
+64. Describe a challenging bug you encountered in React and how you resolved it.
+65. How do you ensure code maintainability in large-scale React projects?
+
+---
+
+### **Bonus (Trickier Questions)**
+66. Can you explain how **React reconciles the Virtual DOM with the real DOM**?
+67. How does **React handle concurrent rendering** in modern versions?
+68. What is the difference between **render**, **commit**, and **diff** phases in React Fiber?
+69. How do you detect and fix memory leaks in React applications?
+70. What are the trade-offs between using **React Context** and **Redux** for state management?
+
+
 ## React Redux
 
 What is Flux?
