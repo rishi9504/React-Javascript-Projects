@@ -1,6 +1,69 @@
 For a React developer interview, interview questions will focus on **core React concepts, performance optimization, state management, design patterns, and best practices**. Here’s a structured list:  
 
 
+---
+
+### 🔹 Core React Concepts
+1. What is React?
+2. What is the history behind React’s evolution?
+3. What are the major features of React?
+4. What is JSX and why is it used in React?
+5. What is the difference between a React Element and a Component?
+6. How do you create components in React?
+7. What are the differences between functional and class components?
+8. When should you use a class component over a function component?
+
+---
+
+### 🔹 React State & Props
+9. What is state in React?
+10. What are props in React?
+11. What is the difference between state and props?
+12. How do you manage state in function vs class components?
+
+---
+
+### 🔹 React Hooks
+13. What are React Hooks and why were they introduced?
+14. What are the most commonly used React Hooks?
+15. How does `useEffect` work and how is it similar to lifecycle methods?
+16. When would you use `useReducer` instead of `useState`?
+17. What is the difference between `useMemo` and `useCallback`?
+18. What are the rules of Hooks?
+
+---
+
+### 🔹 Performance Optimization
+19. What is a Pure Component in React?
+20. How does `React.memo` work?
+21. How does `useCallback` help with performance?
+22. How can you optimize rendering large lists in React?
+23. What is virtualization and how is it implemented in React (e.g., react-window)?
+
+---
+
+### 🔹 React Internals
+24. What is the Virtual DOM in React?
+25. How does the reconciliation process work in React?
+26. What is React Fiber and how does it improve reconciliation?
+
+---
+
+### 🔹 Lists and Keys
+27. Why are keys important in React lists?
+28. What are common mistakes when using keys in React?
+29. Why should you avoid using index as a key?
+
+---
+
+### 🔹 Design Patterns & Best Practices
+30. What is the unidirectional data flow in React?
+31. How do you handle component reusability and composition in React?
+32. What are some common performance pitfalls in React apps?
+
+---
+
+
 ## What is React?
 
 React is a **JavaScript library** used for building **user interfaces**, especially **single-page applications** where you need a fast, interactive experience.
