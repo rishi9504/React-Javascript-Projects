@@ -3,65 +3,47 @@ For a React developer interview, interview questions will focus on **core React 
 
 ---
 
-### 🔹 Core React Concepts
-1. What is React?
-2. What is the history behind React’s evolution?
-3. What are the major features of React?
-4. What is JSX and why is it used in React?
-5. What is the difference between a React Element and a Component?
-6. How do you create components in React?
-7. What are the differences between functional and class components?
-8. When should you use a class component over a function component?
-
----
-
-### 🔹 React State & Props
-9. What is state in React?
-10. What are props in React?
-11. What is the difference between state and props?
-12. How do you manage state in function vs class components?
-
----
-
-### 🔹 React Hooks
-13. What are React Hooks and why were they introduced?
-14. What are the most commonly used React Hooks?
-15. How does `useEffect` work and how is it similar to lifecycle methods?
-16. When would you use `useReducer` instead of `useState`?
-17. What is the difference between `useMemo` and `useCallback`?
-18. What are the rules of Hooks?
-
----
-
-### 🔹 Performance Optimization
-19. What is a Pure Component in React?
-20. How does `React.memo` work?
-21. How does `useCallback` help with performance?
-22. How can you optimize rendering large lists in React?
-23. What is virtualization and how is it implemented in React (e.g., react-window)?
-
----
-
-### 🔹 React Internals
-24. What is the Virtual DOM in React?
-25. How does the reconciliation process work in React?
-26. What is React Fiber and how does it improve reconciliation?
-
----
-
-### 🔹 Lists and Keys
-27. Why are keys important in React lists?
-28. What are common mistakes when using keys in React?
-29. Why should you avoid using index as a key?
-
----
-
-### 🔹 Design Patterns & Best Practices
-30. What is the unidirectional data flow in React?
-31. How do you handle component reusability and composition in React?
-32. What are some common performance pitfalls in React apps?
-
----
+What is React?
+What is the history behind react evolution?
+What are the major features of React?
+What is JSX?
+What is the difference between element and component?
+How do you create components in React?
+What is the difference betweeen functional and class components?
+What are react hooks?
+When should you use a Class component over a Function Component?
+What are Pure components?
+What is state in React?
+What are Props in React?
+How does Reconciliation work in React?
+Whay was React Fiber introduced?
+How does React Fiber work?
+What are keys in React and why are they important?
+What is the React Virtual DOM?
+How does the Virtual DOM work?
+How does the Virtual DOM improves performance?
+How useReducer differs from useState in react?
+What is React.memo?
+Why React.memo matters in lists?
+What are controlled and uncontrolled components in React?
+How to optimize performance in large scale react apps?
+A refresher on React Fiber.
+What is code splitting in React? How does it work?
+When and when not to use useCallback and useMemo?
+When to use context api vs redux?
+What is the difference between Redux Toolkit and traditional Redux?
+What is Zustand?
+How do you structure a scalable React application?
+What is the container-presentational pattern in react?
+What is a higher order component?
+How do Render Props compare to HOCs?
+What are Portals in React and when would you use them?
+How do you prevent unnecessary renders in React?
+What is React Profiler?
+How does lazy loading work in React?
+What is the difference between debounce and throttle in event handling?
+How do you optimize React applications for SEO?
+How do you test a react component?
 
 
 ## What is React?
@@ -638,119 +620,6 @@ function Example() {
 Functional components with hooks are the **modern standard** in React. They are easier to write, more readable, and perform better than class components. **Class components are still supported** but are considered outdated for new React projects.  
 
 ---
-### **What are React Hooks?**  
-React Hooks are **functions that let you use state and lifecycle features in functional components** without writing a class. They were introduced in **React 16.8** to simplify component logic, improve code reusability, and reduce the complexity of class components.
-
-## **Why Were Hooks Introduced?**  
-Before hooks, React used **class components** to manage state and lifecycle methods. However, class components had several problems:  
-
-1. **Complexity in State & Lifecycle Management**  
-   - Managing state in class components required using `this.state` and `this.setState`, which made code more **verbose and difficult to read**.  
-   - Lifecycle methods (`componentDidMount`, `componentDidUpdate`, `componentWillUnmount`) often contained **unrelated logic**, making maintenance harder.  
-
-2. **Code Reusability Issues**  
-   - Logic reuse was difficult in class components.  
-   - Higher-Order Components (HOCs) and Render Props were used but made code **nested and hard to follow**.  
-
-3. **Verbose Code & `this` Binding**  
-   - Class components required **binding `this` in constructors**, leading to **confusing and error-prone code**.  
-   - Hooks eliminate the need for `this` altogether.  
-
-4. **Better Performance & Optimization**  
-   - Hooks allow optimizations like **memoization (`useMemo`, `useCallback`)**, which help prevent unnecessary re-renders.  
-
----
-
-### **Common React Hooks**  
-Here are the most important hooks in React:  
-
-| Hook           | Purpose |
-|---------------|---------|
-| **`useState`**   | Adds state to functional components. |
-| **`useEffect`**  | Handles side effects like API calls, event listeners, etc. |
-| **`useContext`** | Accesses global state from `React.Context`. |
-| **`useReducer`** | Alternative to `useState` for complex state logic. |
-| **`useRef`**     | Accesses DOM elements or persists values without re-renders. |
-| **`useMemo`**    | Optimizes performance by memoizing values. |
-| **`useCallback`** | Memoizes functions to prevent unnecessary re-renders. |
-| **`useLayoutEffect`** | Similar to `useEffect`, but runs synchronously after DOM updates. |
-
----
-
-### **Examples of React Hooks**  
-
-#### **1. `useState` – Managing State**  
-```jsx
-import { useState } from "react";
-
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-  );
-}
-```
-✅ **Why use it?**  
-- Replaces `this.state` in class components.  
-- No need to write a constructor or use `this.setState`.
-
----
-
-#### **2. `useEffect` – Handling Side Effects**  
-```jsx
-import { useEffect, useState } from "react";
-
-function Timer() {
-  const [seconds, setSeconds] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds((prev) => prev + 1);
-    }, 1000);
-
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, []); // Empty dependency array means it runs only once
-
-  return <p>Time: {seconds} seconds</p>;
-}
-```
-✅ **Why use it?**  
-- Replaces lifecycle methods:  
-  - `componentDidMount` (initial mount)  
-  - `componentDidUpdate` (updates)  
-  - `componentWillUnmount` (cleanup)
-
----
-
-#### **3. `useContext` – Managing Global State Without Redux**  
-```jsx
-import { createContext, useContext } from "react";
-
-const UserContext = createContext();
-
-function ComponentA() {
-  return (
-    <UserContext.Provider value="John Doe">
-      <ComponentB />
-    </UserContext.Provider>
-  );
-}
-
-function ComponentB() {
-  const user = useContext(UserContext);
-  return <p>User: {user}</p>;
-}
-```
-✅ **Why use it?**  
-- Replaces **prop drilling** when passing state through multiple components.  
-
-
-
-React Hooks **simplify state management, lifecycle handling, and code reuse** in functional components. They remove the need for class components and make React applications **more readable, scalable, and maintainable**.  
 
 ##	When should you use a Class Component over a Function Component?
 
@@ -791,104 +660,6 @@ However, here’s a breakdown of **when you might still use a class component** 
 ### **In short:**
 **Use function components by default.**  
 Only use class components if you're dealing with older code or special edge cases.
- Check out the [React Hook Conversion Guide](https://reactjs.org/docs/hooks-rules.html#hooks-rules).
-
-
-##	What are Pure Components?
-**Pure Components** in React are components that do a **shallow comparison of props and state** to avoid unnecessary re-renders. They help improve performance by automatically implementing a **shouldComponentUpdate** logic.
-
----
-
-### 🧠 **What Does “Pure” Mean in React?**
-
-A **pure component**:
-- Produces the **same output for the same props and state**.
-- **Doesn’t re-render** unless props or state **actually change**.
-- Works similarly to a **pure function** in functional programming.
-
----
-
-### ✅ **Class Component: PureComponent**
-
-React provides a built-in class called `React.PureComponent`:
-
-```jsx
-import React from 'react';
-
-class MyComponent extends React.PureComponent {
-  render() {
-    console.log('Rendering...');
-    return <h1>{this.props.message}</h1>;
-  }
-}
-```
-
-This is like a regular `React.Component`, but it automatically adds:
-
-```js
-shouldComponentUpdate(nextProps, nextState) {
-  return (
-    shallowCompare(this.props, nextProps) ||
-    shallowCompare(this.state, nextState)
-  );
-}
-```
-
----
-
-### ✅ **Function Component: React.memo()**
-
-In functional components, you use `React.memo()` to achieve the same optimization:
-
-```jsx
-const MyComponent = React.memo(function MyComponent({ message }) {
-  console.log('Rendering...');
-  return <h1>{message}</h1>;
-});
-```
-
-- It **memoizes** the component and only re-renders if props have changed (shallow check).
-- You can also pass a custom comparison function if needed.
-
----
-
-### 🔍 Shallow Comparison
-
-Pure components use **shallow comparison**, meaning:
-- For **primitive values** (like strings, numbers) — compares values directly.
-- For **objects/arrays** — compares references (not deep values).
-
-So:
-```js
-{ name: 'John' } !== { name: 'John' } // different references → re-render happens
-```
-
----
-
-### ⚠️ When to Use (and Not Use) Pure Components
-
-✅ **Use PureComponent / React.memo:**
-- When you have **performance issues** due to unnecessary re-renders.
-- When your component is **stateless** or **receives stable props**.
-
-❌ **Avoid if:**
-- Your props are often new objects/arrays/functions (e.g., created inline).
-- You rely on deep prop structures (because shallow comparison might miss changes).
-
----
-
-### Example:
-
-```jsx
-const Message = React.memo(({ text }) => {
-  console.log('Rendered');
-  return <p>{text}</p>;
-});
-
-// Only re-renders if `text` prop changes
-```
-
----
 
 ##	What is state in React?
 
@@ -1081,8 +852,8 @@ function Welcome({ name = 'Guest' }) {
 ---
 
 
-11	What is the difference between state and props?
-Great question! Understanding the difference between **state** and **props** is **fundamental** to building React apps effectively. They both deal with data, but they serve **different purposes**.
+## What is the difference between state and props?
+Understanding the difference between **state** and **props** is **fundamental** to building React apps effectively. They both deal with data, but they serve **different purposes**.
 
 ---
 
@@ -1126,6 +897,222 @@ function Greeting({ name }) {  // name is a prop
 > ⚙️ **State** is the **internal condition** of that machine while it's running.
 
 ---
+
+ ---
+## **What are React Hooks?**  
+React Hooks are **functions that let you use state and lifecycle features in functional components** without writing a class. They were introduced in **React 16.8** to simplify component logic, improve code reusability, and reduce the complexity of class components.
+
+## **Why Were Hooks Introduced?**  
+Before hooks, React used **class components** to manage state and lifecycle methods. However, class components had several problems:  
+
+1. **Complexity in State & Lifecycle Management**  
+   - Managing state in class components required using `this.state` and `this.setState`, which made code more **verbose and difficult to read**.  
+   - Lifecycle methods (`componentDidMount`, `componentDidUpdate`, `componentWillUnmount`) often contained **unrelated logic**, making maintenance harder.  
+
+2. **Code Reusability Issues**  
+   - Logic reuse was difficult in class components.  
+   - Higher-Order Components (HOCs) and Render Props were used but made code **nested and hard to follow**.  
+
+3. **Verbose Code & `this` Binding**  
+   - Class components required **binding `this` in constructors**, leading to **confusing and error-prone code**.  
+   - Hooks eliminate the need for `this` altogether.  
+
+4. **Better Performance & Optimization**  
+   - Hooks allow optimizations like **memoization (`useMemo`, `useCallback`)**, which help prevent unnecessary re-renders.  
+
+---
+
+### **Common React Hooks**  
+Here are the most important hooks in React:  
+
+| Hook           | Purpose |
+|---------------|---------|
+| **`useState`**   | Adds state to functional components. |
+| **`useEffect`**  | Handles side effects like API calls, event listeners, etc. |
+| **`useContext`** | Accesses global state from `React.Context`. |
+| **`useReducer`** | Alternative to `useState` for complex state logic. |
+| **`useRef`**     | Accesses DOM elements or persists values without re-renders. |
+| **`useMemo`**    | Optimizes performance by memoizing values. |
+| **`useCallback`** | Memoizes functions to prevent unnecessary re-renders. |
+| **`useLayoutEffect`** | Similar to `useEffect`, but runs synchronously after DOM updates. |
+
+---
+
+### **Examples of React Hooks**  
+
+#### **1. `useState` – Managing State**  
+```jsx
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+✅ **Why use it?**  
+- Replaces `this.state` in class components.  
+- No need to write a constructor or use `this.setState`.
+
+---
+
+#### **2. `useEffect` – Handling Side Effects**  
+```jsx
+import { useEffect, useState } from "react";
+
+function Timer() {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds((prev) => prev + 1);
+    }, 1000);
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []); // Empty dependency array means it runs only once
+
+  return <p>Time: {seconds} seconds</p>;
+}
+```
+✅ **Why use it?**  
+- Replaces lifecycle methods:  
+  - `componentDidMount` (initial mount)  
+  - `componentDidUpdate` (updates)  
+  - `componentWillUnmount` (cleanup)
+
+---
+
+#### **3. `useContext` – Managing Global State Without Redux**  
+```jsx
+import { createContext, useContext } from "react";
+
+const UserContext = createContext();
+
+function ComponentA() {
+  return (
+    <UserContext.Provider value="John Doe">
+      <ComponentB />
+    </UserContext.Provider>
+  );
+}
+
+function ComponentB() {
+  const user = useContext(UserContext);
+  return <p>User: {user}</p>;
+}
+```
+✅ **Why use it?**  
+- Replaces **prop drilling** when passing state through multiple components.  
+
+
+
+React Hooks **simplify state management, lifecycle handling, and code reuse** in functional components. They remove the need for class components and make React applications **more readable, scalable, and maintainable**.  
+
+
+
+
+##	What are Pure Components?
+**Pure Components** in React are components that do a **shallow comparison of props and state** to avoid unnecessary re-renders. They help improve performance by automatically implementing a **shouldComponentUpdate** logic.
+
+---
+
+### 🧠 **What Does “Pure” Mean in React?**
+
+A **pure component**:
+- Produces the **same output for the same props and state**.
+- **Doesn’t re-render** unless props or state **actually change**.
+- Works similarly to a **pure function** in functional programming.
+
+---
+
+### ✅ **Class Component: PureComponent**
+
+React provides a built-in class called `React.PureComponent`:
+
+```jsx
+import React from 'react';
+
+class MyComponent extends React.PureComponent {
+  render() {
+    console.log('Rendering...');
+    return <h1>{this.props.message}</h1>;
+  }
+}
+```
+
+This is like a regular `React.Component`, but it automatically adds:
+
+```js
+shouldComponentUpdate(nextProps, nextState) {
+  return (
+    shallowCompare(this.props, nextProps) ||
+    shallowCompare(this.state, nextState)
+  );
+}
+```
+
+---
+
+### ✅ **Function Component: React.memo()**
+
+In functional components, you use `React.memo()` to achieve the same optimization:
+
+```jsx
+const MyComponent = React.memo(function MyComponent({ message }) {
+  console.log('Rendering...');
+  return <h1>{message}</h1>;
+});
+```
+
+- It **memoizes** the component and only re-renders if props have changed (shallow check).
+- You can also pass a custom comparison function if needed.
+
+---
+
+### 🔍 Shallow Comparison
+
+Pure components use **shallow comparison**, meaning:
+- For **primitive values** (like strings, numbers) — compares values directly.
+- For **objects/arrays** — compares references (not deep values).
+
+So:
+```js
+{ name: 'John' } !== { name: 'John' } // different references → re-render happens
+```
+
+---
+
+### ⚠️ When to Use (and Not Use) Pure Components
+
+✅ **Use PureComponent / React.memo:**
+- When you have **performance issues** due to unnecessary re-renders.
+- When your component is **stateless** or **receives stable props**.
+
+❌ **Avoid if:**
+- Your props are often new objects/arrays/functions (e.g., created inline).
+- You rely on deep prop structures (because shallow comparison might miss changes).
+
+---
+
+### Example:
+
+```jsx
+const Message = React.memo(({ text }) => {
+  console.log('Rendered');
+  return <p>{text}</p>;
+});
+
+// Only re-renders if `text` prop changes
+```
+
+---
+
+
 
 ## **How Does Reconciliation Work in React?**  
 

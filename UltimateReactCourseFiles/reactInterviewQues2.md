@@ -2,6 +2,8 @@ Here are some additional **React interview questions** that you might have misse
 
 ---
 
+
+
 ### **React Fundamentals**
 1. What is the **Virtual DOM**, and how does it improve performance?
 2. Explain the difference between **controlled** and **uncontrolled components**.
