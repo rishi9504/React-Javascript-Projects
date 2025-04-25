@@ -3,119 +3,119 @@ For a React developer interview, interview questions will focus on **core React 
 
 ---
 
-What is React?
-What is the history behind react evolution?
-What are the major features of React?
-What is JSX?
-What is the difference between element and component?
-How do you create components in React?
-What is the difference betweeen functional and class components?
-What are react hooks?
-When should you use a Class component over a Function Component?
-What are Pure components?
-What is state in React?
-What are Props in React?
-How does Reconciliation work in React?
-Whay was React Fiber introduced?
-How does React Fiber work?
-What are keys in React and why are they important?
-What is the React Virtual DOM?
-How does the Virtual DOM work?
-How does the Virtual DOM improves performance?
-How useReducer differs from useState in react?
-What is React.memo?
-Why React.memo matters in lists?
-What are controlled and uncontrolled components in React?
-How to optimize performance in large scale react apps?
-A refresher on React Fiber.
-What is code splitting in React? How does it work?
-When and when not to use useCallback and useMemo?
-When to use context api vs redux?
-What is the difference between Redux Toolkit and traditional Redux?
-What is Zustand?
-How do you structure a scalable React application?
-What is the container-presentational pattern in react?
-What is a higher order component?
-How do Render Props compare to HOCs?
-What are Portals in React and when would you use them?
-How do you prevent unnecessary renders in React?
-What is React Profiler?
-How does lazy loading work in React?
-What is the difference between debounce and throttle in event handling?
-How do you optimize React applications for SEO?
-How do you test a react component?
-What are JEST and React Testing Library, and how do they differ?
-How do you test asynchronus operations in React?
-What is shallow rendering and when would you use it?
-How do you type props and state in React with TypeScript?
-What are react PropTypes and why is TypeScript preferred over them?
-How do you create a custom hook with TypeScript?
-How do you handle authentication in React?
-How do you optimize API calls in a React app?
-What are React Query and SWR and how do they compare?
-How do you handle Websockets in React app?
-What is the difference between HTML and React event handling?
-What is the difference between event delegation and event bubbling?- not done
-What are event capturing and event capturing and what is the difference between them?-not done
-What are synthetic events in React?
-What are inline conditional expressions?
-What is Virtual Dom? How does it work?
-Can you explain the difference between Shadow DOM and Virtual DOM?
-What is the difference between createElement and cloneElement?
-What is lifting state up in React?
-What is a Higher Order Component?
-What is the Children Prop?
-Does the lazy function support named exports?
-Why className instead of class in React?
-What are React Fragments?
-What are Stateless components?
-What are Proptypes?
-What are the recommended ways for static type checking in React?
-What is react-dom?
-What is ReactDOMServer?
-Why use ReactDOMServer?
-How do you apply styles in React?
-What is the difference between React events and HTML DOM Events?
-What is the impact of using indexes as keys?
-Why be careful with spreading props on DOM elements?
-How do you implement Server side rendering?
-How do you enable production mode in React?
-Do hooks replace render props and higher order components?
-What is a switching component?
-What are React Mixins?
-What are the pointer events supported in React?
-Why should component names start with capital letter?
-How do you access props within attribute quotes?
-What is a React PropType array with shape?
-How do you conditionally apply class attributes?
-How do you combine multiple inline style objects?
-How do you re-render the view when the browser is resized?
-How do you pretty print JSON with react?
-Why can't you update props in React?
-How do you use input element on page load?
-How can you find the version of React at the runtime in the browser?
-How do you add Google Analytics for React Router?
-How do you apply vendor prefixes to inline styles in React?
-How do you import and export components using React and ES6?
-What are the exceptions to React component naming?
-Is it possible to use async/await in plain React?
-What are the benefits of style modules?
-What are popular React-specific linters?
-What is React Router?
-How is React Router different from the history library?
-What are the components of React Router v6?
-What is the purpose of the push and replace methods of history?
-How do you programmatically navigate using React Router ?
-Why do you get a "Router may have only one child element" warning?
-How do you handle nested routes in React Router v6?
-How do you implement a default or NotFound page?
-How do you get history in React Router ?
-What if you REALLY need the raw history object?
-What is React Intl?
-What are the two ways of formatting in React Intl?
-How do you use FormattedMessage as a placeholder with React Intl?
-How do you access the current locale with React Intl?
-How do you format a date using React Intl?
+#### What is React?
+#### What is the history behind react evolution?
+#### What are the major features of React?
+#### What is JSX?
+#### What is the difference between element and component?
+#### How do you create components in React?
+#### What is the difference betweeen functional and class components?
+#### What are react hooks?
+#### When should you use a Class component over a Function Component?
+#### What are Pure components?
+#### What is state in React?
+#### What are Props in React?
+#### How does Reconciliation work in React?
+#### What was React Fiber introduced?
+#### How does React Fiber work?
+#### What are keys in React and why are they important?
+#### What is the React Virtual DOM?
+#### How does the Virtual DOM work?
+#### How does the Virtual DOM improves performance?
+#### How useReducer differs from useState in react?
+#### What is React.memo?
+#### Why React.memo matters in lists?
+#### What are controlled and uncontrolled components in React?
+#### How to optimize performance in large scale react apps?
+#### A refresher on React Fiber.
+#### What is code splitting in React? #### How does it work?
+#### When and when not to use useCallback and useMemo?
+#### When to use context api vs redux?
+#### What is the difference between Redux Toolkit and traditional Redux?
+#### What is Zustand?
+#### How do you structure a scalable React application?
+#### What is the container-presentational pattern in react?
+#### What is a higher order component?
+#### How do Render Props compare to HOCs?
+#### What are Portals in React and when would you use them?
+#### How do you prevent unnecessary renders in React?
+#### What is React Profiler?
+#### How does lazy loading work in React?
+#### What is the difference between debounce and throttle in event handling?
+#### How do you optimize React applications for SEO?
+#### How do you test a react component?
+#### What are JEST and React Testing Library, and  how do they differ?
+#### How do you test asynchronus operations in React?
+#### What is shallow rendering and when would you use it?
+#### How do you type props and state in React with TypeScript?
+#### What are react PropTypes and why is TypeScript preferred over them?
+#### How do you create a custom hook with TypeScript?
+#### How do you handle authentication in React?
+#### How do you optimize API calls in a React app?
+#### What are React Query and SWR and  how do they compare?
+#### How do you handle Websockets in React app?
+#### What is the difference between HTML and React event handling?
+#### What is the difference between event delegation and event bubbling?- not done
+#### What are event capturing and event capturing and what is the difference between them?-not done
+#### What are synthetic events in React?
+#### What are inline conditional expressions?
+#### What is Virtual Dom?  How does it work?
+#### Can you explain the difference between Shadow DOM and Virtual DOM?
+#### What is the difference between createElement and cloneElement?
+#### What is lifting state up in React?
+#### What is a Higher Order Component?
+#### What is the Children Prop?
+#### Does the lazy function support named exports?
+#### Why className instead of class in React?
+#### What are React Fragments?
+#### What are Stateless components?
+#### What are Proptypes?
+#### What are the recommended ways for static type checking in React?
+#### What is react-dom?
+#### What is ReactDOMServer?
+#### Why use ReactDOMServer?
+#### How do you apply styles in React?
+#### What is the difference between React events and HTML DOM Events?
+#### What is the impact of using indexes as keys?
+#### Why be careful with spreading props on DOM elements?
+#### How do you implement Server side rendering?
+#### How do you enable production mode in React?
+#### Do hooks replace render props and higher order components?
+#### What is a switching component?
+#### What are React Mixins?
+#### What are the pointer events supported in React?
+#### Why should component names start with capital letter?
+#### How do you access props within attribute quotes?
+#### What is a React PropType array with shape?
+#### How do you conditionally apply class attributes?
+#### How do you combine multiple inline style objects?
+#### How do you re-render the view when the browser is resized?
+#### How do you pretty print JSON with react?
+#### Why can't you update props in React?
+#### How do you use input element on page load?
+#### How can you find the version of React at the runtime in the browser?
+#### How do you add Google Analytics for React Router?
+#### How do you apply vendor prefixes to inline styles in React?
+#### How do you import and export components using React and ES6?
+#### What are the exceptions to React component naming?
+#### Is it possible to use async/await in plain React?
+#### What are the benefits of style modules?
+#### What are popular React-specific linters?
+#### What is React Router?
+#### How is React Router different from the history library?
+#### What are the components of React Router v6?
+#### What is the purpose of the push and replace methods of history?
+#### How do you programmatically navigate using React Router ?
+#### Why do you get a "Router may have only one child element" warning?
+#### How do you handle nested routes in React Router v6?
+#### How do you implement a default or NotFound page?
+#### How do you get history in React Router ?
+#### What if you REALLY need the raw history object?
+#### What is React Intl?
+#### What are the two ways of formatting in React Intl?
+#### How do you use FormattedMessage as a placeholder with React Intl?
+#### How do you access the current locale with React Intl?
+#### How do you format a date using React Intl?
 
 ## What is React?
 
