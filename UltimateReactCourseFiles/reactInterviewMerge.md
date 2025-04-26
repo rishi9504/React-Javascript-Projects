@@ -28,7 +28,7 @@ For a React developer interview, interview questions will focus on **core React 
 #### What are controlled and uncontrolled components in React?
 #### How to optimize performance in large scale react apps?
 #### A refresher on React Fiber.
-#### What is code splitting in React? #### How does it work?
+#### What is code splitting in React?How does it work?
 #### When and when not to use useCallback and useMemo?
 #### When to use context api vs redux?
 #### What is the difference between Redux Toolkit and traditional Redux?
@@ -117,6 +117,175 @@ For a React developer interview, interview questions will focus on **core React 
 #### How do you access the current locale with React Intl?
 #### How do you format a date using React Intl?
 
+
+---
+
+## 🧠 1. **React Fundamentals**
+- What is React?  
+- What is JSX?  
+- What is the difference between an element and a component?  
+- How do you create components in React?  
+- What is the difference between functional and class components?  
+- When should you use a class component over a function component?  
+- What are stateless components?  
+- Why should component names start with a capital letter?  
+- Why className instead of class in React?  
+- What are React Fragments?  
+- What is the Children Prop?  
+- What are inline conditional expressions?  
+- What is the purpose of the `push` and `replace` methods of history?  
+- What are exceptions to React component naming?
+
+---
+
+## 🧬 2. **React History & Evolution**
+- What is the history behind React’s evolution?  
+- What was React Fiber introduced?  
+- A refresher on React Fiber.
+
+---
+
+## 🚀 3. **Advanced React Internals**
+- How does Reconciliation work in React?  
+- What is the Virtual DOM?  
+- How does the Virtual DOM work?  
+- How does the Virtual DOM improve performance?  
+- How does React Fiber work?  
+- Can you explain the difference between Shadow DOM and Virtual DOM?
+
+---
+
+## ⚙️ 4. **Component Patterns**
+- What is a Higher Order Component (HOC)?  
+- How do Render Props compare to HOCs?  
+- What is the container-presentational pattern in React?  
+- What is a switching component?  
+- What are React Mixins?  
+- Do hooks replace render props and higher-order components?
+
+---
+
+## 📦 5. **Hooks & State**
+- What are React Hooks?  
+- How useReducer differs from useState in React?  
+- When and when not to use useCallback and useMemo?  
+- What is lifting state up in React?  
+- How do you re-render the view when the browser is resized?
+
+---
+
+## 🧩 6. **Props, State & Context**
+- What is state in React?  
+- What are props in React?  
+- Why can't you update props in React?  
+- What are React PropTypes and why is TypeScript preferred over them?  
+- What is a React PropType array with shape?  
+- What are the recommended ways for static type checking in React?  
+- How do you type props and state in React with TypeScript?  
+- How do you access props within attribute quotes?  
+- What is Zustand?  
+- When to use Context API vs Redux?
+
+---
+
+## 📊 7. **Performance Optimization**
+- What are Pure Components?  
+- What is React.memo?  
+- Why React.memo matters in lists?  
+- How do you prevent unnecessary renders in React?  
+- How to optimize performance in large-scale React apps?  
+- What is React Profiler?  
+- What is the impact of using indexes as keys?  
+- Why be careful with spreading props on DOM elements?  
+- How do you optimize API calls in a React app?  
+- How do you optimize React applications for SEO?
+
+---
+
+## ✨ 8. **Styling in React**
+- How do you apply styles in React?  
+- How do you conditionally apply class attributes?  
+- How do you combine multiple inline style objects?  
+- How do you pretty print JSON with React?  
+- What are the benefits of style modules?  
+- How do you apply vendor prefixes to inline styles in React?
+
+---
+
+## 🧪 9. **Testing in React**
+- How do you test a React component?  
+- What are JEST and React Testing Library, and how do they differ?  
+- How do you test asynchronous operations in React?  
+- What is shallow rendering and when would you use it?
+
+---
+
+## 🔐 10. **Authentication & Data Fetching**
+- How do you handle authentication in React?  
+- What are React Query and SWR and how do they compare?  
+- How do you handle Websockets in a React app?
+
+---
+
+## 🔁 11. **Event Handling**
+- What is the difference between HTML and React event handling?  
+- What are synthetic events in React?  
+- What is the difference between createElement and cloneElement?  
+- What is the difference between event delegation and event bubbling?  
+- What are event capturing and bubbling and what is the difference between them?  
+- What is the difference between React events and HTML DOM Events?  
+- What is the difference between debounce and throttle in event handling?  
+- What are the pointer events supported in React?
+
+---
+
+## 🧱 12. **Code Architecture & Patterns**
+- How do you structure a scalable React application?  
+- How do you import and export components using React and ES6?
+
+---
+
+## 🧩 13. **Dynamic Imports & Code Splitting**
+- What is code splitting in React? How does it work?  
+- How does lazy loading work in React?  
+- Does the lazy function support named exports?
+
+---
+
+## 🌍 14. **ReactDOM & Server-Side Rendering**
+- What is react-dom?  
+- What is ReactDOMServer?  
+- Why use ReactDOMServer?  
+- How do you implement Server Side Rendering?  
+- How do you enable production mode in React?
+
+---
+
+## 📡 15. **Routing (React Router)**
+- What is React Router?  
+- How is React Router different from the history library?  
+- What are the components of React Router v6?  
+- How do you programmatically navigate using React Router?  
+- Why do you get a “Router may have only one child element” warning?  
+- How do you handle nested routes in React Router v6?  
+- How do you implement a default or NotFound page?  
+- How do you get history in React Router?  
+- What if you REALLY need the raw history object?  
+- How do you add Google Analytics for React Router?
+
+---
+
+## 🌐 16. **Internationalization (React Intl)**
+- What is React Intl?  
+- What are the two ways of formatting in React Intl?  
+- How do you use FormattedMessage as a placeholder with React Intl?  
+- How do you access the current locale with React Intl?  
+- How do you format a date using React Intl?
+
+---
+
+
+
 ## What is React?
 
 React is a **JavaScript library** used for building **user interfaces**, especially **single-page applications** where you need a fast, interactive experience.
@@ -138,7 +307,77 @@ function Greeting() {
 }
 ```
 
+---
+## 	What is JSX?
+**JSX** (JavaScript XML) is a **syntax extension for JavaScript** used in React to describe what the UI should look like. It allows you to write HTML-like code inside JavaScript, making the UI code more readable and declarative.
 
+---
+
+### **Why JSX?**
+- It blends **markup (HTML)** and **logic (JavaScript)** in one place.
+- Makes it easier to **visualize component structure** and logic together.
+
+---
+
+### **Example:**
+
+```jsx
+const element = <h1>Hello, world!</h1>;
+```
+
+This JSX code gets transpiled (by Babel) into:
+
+```js
+const element = React.createElement('h1', null, 'Hello, world!');
+```
+
+---
+
+### **Features of JSX:**
+
+1. **Looks like HTML but is JavaScript:**
+   - You can embed any JS expression inside `{}`.
+
+   ```jsx
+   const name = 'Jane';
+   const greeting = <h1>Hello, {name}!</h1>;
+   ```
+
+2. **Supports JavaScript expressions:**
+   - You can use functions, variables, conditionals, etc.
+
+   ```jsx
+   const isLoggedIn = true;
+   const message = <p>{isLoggedIn ? 'Welcome back!' : 'Please log in'}</p>;
+   ```
+
+3. **Must return a single root element:**
+   - Wrap multiple elements in a parent like a `<div>` or a React Fragment (`<> </>`).
+
+   ```jsx
+   return (
+     <>
+       <h1>Title</h1>
+       <p>Subtitle</p>
+     </>
+   );
+   ```
+
+4. **Custom components start with capital letters:**
+   ```jsx
+   function MyButton() {
+     return <button>Click Me</button>;
+   }
+
+   const app = <MyButton />;
+   ```
+
+---
+
+### **Behind the scenes:**
+JSX is not required to write React, but it makes code more expressive and concise. Tools like **Babel** convert JSX into standard JavaScript calls (`React.createElement`).
+
+---
 
 
 
@@ -273,76 +512,7 @@ const [count, setCount] = useState(0);
 
 
 
-## 	What is JSX?
-**JSX** (JavaScript XML) is a **syntax extension for JavaScript** used in React to describe what the UI should look like. It allows you to write HTML-like code inside JavaScript, making the UI code more readable and declarative.
 
----
-
-### **Why JSX?**
-- It blends **markup (HTML)** and **logic (JavaScript)** in one place.
-- Makes it easier to **visualize component structure** and logic together.
-
----
-
-### **Example:**
-
-```jsx
-const element = <h1>Hello, world!</h1>;
-```
-
-This JSX code gets transpiled (by Babel) into:
-
-```js
-const element = React.createElement('h1', null, 'Hello, world!');
-```
-
----
-
-### **Features of JSX:**
-
-1. **Looks like HTML but is JavaScript:**
-   - You can embed any JS expression inside `{}`.
-
-   ```jsx
-   const name = 'Jane';
-   const greeting = <h1>Hello, {name}!</h1>;
-   ```
-
-2. **Supports JavaScript expressions:**
-   - You can use functions, variables, conditionals, etc.
-
-   ```jsx
-   const isLoggedIn = true;
-   const message = <p>{isLoggedIn ? 'Welcome back!' : 'Please log in'}</p>;
-   ```
-
-3. **Must return a single root element:**
-   - Wrap multiple elements in a parent like a `<div>` or a React Fragment (`<> </>`).
-
-   ```jsx
-   return (
-     <>
-       <h1>Title</h1>
-       <p>Subtitle</p>
-     </>
-   );
-   ```
-
-4. **Custom components start with capital letters:**
-   ```jsx
-   function MyButton() {
-     return <button>Click Me</button>;
-   }
-
-   const app = <MyButton />;
-   ```
-
----
-
-### **Behind the scenes:**
-JSX is not required to write React, but it makes code more expressive and concise. Tools like **Babel** convert JSX into standard JavaScript calls (`React.createElement`).
-
----
 
 
 ##	What is the difference between an Element and a Component?
