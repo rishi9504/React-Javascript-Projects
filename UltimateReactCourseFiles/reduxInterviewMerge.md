@@ -1502,19 +1502,1073 @@ These components and patterns allow you to handle the flow of actions and update
 
 ## ⚙️ Redux Patterns
 ## What are the differences between mapStateToProps and mapDispatchToProps?
-## How do you structure top-level Redux directories?
-## How do you set initial state in Redux?
-## What are different ways to write mapDispatchToProps?
-## What is the use of ownProps in Redux?
+Here’s a clear breakdown of the **differences between `mapStateToProps` and `mapDispatchToProps`** in Redux:
+
+| Feature | `mapStateToProps` | `mapDispatchToProps` |
+|:--------|:------------------|:---------------------|
+| **Purpose** | To read data from the Redux store and pass it as props to a React component. | To dispatch actions to the Redux store and pass the dispatching functions as props to a React component. |
+| **Input** | Receives the entire Redux `state` as an argument. | Receives the Redux `dispatch` function as an argument. |
+| **Output** | Should return an object where keys become props in the connected component (each key-value is a piece of the store's state). | Should return an object where keys are props that call `dispatch` when invoked (each key-value is a dispatching function). |
+| **When It's Called** | Called whenever the store’s state updates (causing re-render if selected state changes). | Called once when the component connects (unless you provide a dynamic `mapDispatchToProps`). |
+| **Example** | ```javascript function mapStateToProps(state) { return { user: state.user, isLoggedIn: state.auth.isLoggedIn }; } ``` | ```javascript function mapDispatchToProps(dispatch) { return { login: (userInfo) => dispatch(loginUser(userInfo)), logout: () => dispatch(logoutUser()) }; } ``` |
+| **Shortcuts** | You can use `useSelector` hook instead in functional components (without `mapStateToProps`). | You can use `useDispatch` hook directly instead in functional components (without `mapDispatchToProps`). |
+| **Automatic Binding** | No actions are involved — just selects state data. | Action creators are usually **wrapped** with `dispatch` automatically. |
+| **Impact on Component** | Provides **state-based props**. | Provides **action-dispatching props**. |
+
 ---
+
+### Summary in Simple Terms:
+- **`mapStateToProps`**: *"Give me the data from the Redux store that my component needs."*
+- **`mapDispatchToProps`**: *"Give me functions that let my component send actions to the store."*
+
+---
+
+### Quick Combined Example:
+```javascript
+import { connect } from 'react-redux';
+import { loginUser, logoutUser } from './actions';
+
+function MyComponent({ user, isLoggedIn, login, logout }) {
+  // use props: user, isLoggedIn, login(), logout()
+}
+
+// mapStateToProps
+const mapStateToProps = (state) => ({
+  user: state.user,
+  isLoggedIn: state.auth.isLoggedIn,
+});
+
+// mapDispatchToProps
+const mapDispatchToProps = {
+  login: loginUser,   // automatically wrapped in dispatch
+  logout: logoutUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyComponent);
+```
+
+In this example:
+- `user` and `isLoggedIn` come from Redux **state** (via `mapStateToProps`).
+- `login()` and `logout()` are **functions** that dispatch actions (via `mapDispatchToProps`).
+
+---
+
+
+## How do you structure top-level Redux directories?
+
+Structuring your **top-level Redux directories** cleanly is important for scaling, maintaining, and collaborating on your project — especially as it grows.
+
+A **standard and effective Redux folder structure** usually looks like this:
+
+---
+### 🗂 Basic Top-Level Structure
+```
+/src
+  /store
+    /slices
+      authSlice.js
+      userSlice.js
+      productSlice.js
+    store.js
+  /features
+    /auth
+      LoginPage.js
+      RegisterPage.js
+      authAPI.js
+    /user
+      ProfilePage.js
+      userAPI.js
+    /product
+      ProductList.js
+      ProductDetail.js
+      productAPI.js
+  /components
+    Header.js
+    Footer.js
+  /hooks
+    useAuth.js
+    useProducts.js
+  /utils
+    helpers.js
+    constants.js
+  App.js
+  index.js
+```
+
+---
+
+### 📁 Folder Explanation:
+
+| Folder/File | Purpose |
+|:------------|:--------|
+| **/store** | Centralized Redux logic: `store.js` (configures Redux store) and `slices` (state modules). |
+| **/store/slices** | Each slice manages a related piece of state (auth, user, product). Each slice contains actions + reducers. |
+| **/features** | Feature-specific components, APIs, and logic grouped together (Feature-based folder structure). |
+| **/components** | Shared, reusable UI components (non-feature-specific). |
+| **/hooks** | Custom reusable hooks for interacting with the Redux store or APIs (example: `useAuth`, `useProducts`). |
+| **/utils** | Utility/helper functions and constants (e.g., API URLs, formatters). |
+| **App.js** | Main app component. |
+| **index.js** | Application entry point (rendering `<Provider>` from `react-redux`).
+
+---
+
+### 🛠 Deeper Look into Important Redux Files:
+
+#### **/store/store.js**
+```javascript
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './slices/authSlice';
+import userReducer from './slices/userSlice';
+import productReducer from './slices/productSlice';
+
+const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    user: userReducer,
+    product: productReducer,
+  },
+});
+
+export default store;
+```
+
+#### **/store/slices/authSlice.js**
+```javascript
+import { createSlice } from '@reduxjs/toolkit';
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: {
+    isLoggedIn: false,
+    user: null,
+  },
+  reducers: {
+    login(state, action) {
+      state.isLoggedIn = true;
+      state.user = action.payload;
+    },
+    logout(state) {
+      state.isLoggedIn = false;
+      state.user = null;
+    },
+  },
+});
+
+export const { login, logout } = authSlice.actions;
+export default authSlice.reducer;
+```
+
+---
+
+### ✨ Some Best Practices:
+
+- **Feature-first** instead of type-first organization:
+  - Group everything by *feature* (auth, user, product) rather than "reducers", "actions", "components" separately.
+- **Slices** (with Redux Toolkit) simplify boilerplate — actions + reducers in one place.
+- Keep **API requests** (`authAPI.js`, `productAPI.js`) next to related features.
+- Create **custom hooks** (`useAuth.js`, `useProducts.js`) to abstract common logic instead of cluttering components.
+- Keep **store configuration (`store.js`)** clean and centralized.
+
+---
+
+### 🧹 Summary
+- `/store`: Redux logic (slices and store configuration).
+- `/features`: Each app feature gets its own folder (pages + API files).
+- `/components`: Shared reusable UI parts.
+- `/hooks`: Custom React hooks.
+- `/utils`: Utility/helper functions.
+
+---
+
+## How do you set initial state in Redux?
+In Redux, **you set the initial state** in two main ways, depending on how you're creating your store and reducers:
+
+---
+
+### 1. **Initial State Inside Reducer (Common Way)**
+
+You directly set the **initial state** as the default value of the reducer's `state` parameter.
+
+**Example:**
+```javascript
+// counterReducer.js
+const initialState = {
+  count: 0,
+};
+
+function counterReducer(state = initialState, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { ...state, count: state.count + 1 };
+    case 'DECREMENT':
+      return { ...state, count: state.count - 1 };
+    default:
+      return state; // Return the existing state if action not recognized
+  }
+}
+
+export default counterReducer;
+```
+
+🔹 Here, `initialState` ensures that if `state` is `undefined`, it starts with `{ count: 0 }`.
+
+---
+
+### 2. **Providing Preloaded State When Creating the Store**
+
+When you call `createStore()` (or `configureStore()` in Redux Toolkit), you can also provide a **preloaded initial state** manually.
+
+**Example using plain Redux:**
+```javascript
+import { createStore } from 'redux';
+import counterReducer from './counterReducer';
+
+const preloadedState = {
+  count: 5, // different from reducer's default
+};
+
+const store = createStore(counterReducer, preloadedState);
+```
+
+**Example using Redux Toolkit (`configureStore`):**
+```javascript
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from './counterSlice';
+
+const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+  },
+  preloadedState: {
+    counter: { count: 10 }, // Overrides initialState of slice
+  },
+});
+```
+
+✅ **When to use preloadedState**:
+- Hydrate Redux store from **server-side rendering (SSR)**.
+- Restore Redux state from **localStorage/sessionStorage**.
+- Inject state during **tests**.
+
+---
+
+### 3. **Setting Initial State in Redux Toolkit Slice**
+
+If you're using **Redux Toolkit** (recommended), the initial state is defined inside `createSlice()`.
+
+**Example with `createSlice`:**
+```javascript
+import { createSlice } from '@reduxjs/toolkit';
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: {
+    count: 0,
+  },
+  reducers: {
+    increment(state) {
+      state.count += 1;
+    },
+    decrement(state) {
+      state.count -= 1;
+    },
+  },
+});
+
+export const { increment, decrement } = counterSlice.actions;
+export default counterSlice.reducer;
+```
+
+🔹 `initialState` here is automatically tied to the slice.
+
+---
+
+### 📌 Quick Summary:
+| Method | Where Initial State Is Set | When to Use |
+|:-------|:----------------------------|:------------|
+| In reducer function | Default value of `state` parameter | Always required |
+| In `createStore` or `configureStore` | As `preloadedState` argument | For hydration, testing, restoring state |
+| In `createSlice` (Redux Toolkit) | `initialState` field inside slice | Cleaner and recommended with Redux Toolkit |
+
+---
+
+
+## What are different ways to write mapDispatchToProps?
+Good question!  
+In Redux (especially with `react-redux`), there are **several different ways** you can write `mapDispatchToProps`, depending on how much control you need.
+
+Here’s a clear breakdown:
+
+---
+
+### 1. **As a Function (Full Control Approach)**
+
+You define `mapDispatchToProps` as a function that manually binds action creators to `dispatch`.
+
+```javascript
+const mapDispatchToProps = (dispatch) => {
+  return {
+    increment: () => dispatch({ type: 'INCREMENT' }),
+    decrement: () => dispatch({ type: 'DECREMENT' }),
+  };
+};
+```
+✅ **Use this** when you need **custom behavior** before dispatching.
+
+---
+
+### 2. **As an Object (Shorthand/Automatic Binding)**
+
+Instead of a function, you can pass an **object of action creators** directly.  
+`connect` automatically wraps them in `dispatch()` for you.
+
+```javascript
+import { increment, decrement } from './counterActions';
+
+const mapDispatchToProps = {
+  increment,
+  decrement,
+};
+```
+
+✅ **Use this** when you have simple action creators — it's **cleaner and shorter**.
+
+---
+
+### 3. **Using `bindActionCreators`**
+
+You can manually bind action creators using `redux`’s `bindActionCreators` utility inside `mapDispatchToProps`.
+
+```javascript
+import { bindActionCreators } from 'redux';
+import { increment, decrement } from './counterActions';
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    {
+      increment,
+      decrement,
+    },
+    dispatch
+  );
+};
+```
+
+✅ **Use this** when you want clean binding inside a manual function (more explicit).
+
+---
+
+### 4. **Using `useDispatch` Hook (Modern Way)**
+
+If you're using **function components** (React Hooks), you can skip `mapDispatchToProps` completely by using `useDispatch`.
+
+```javascript
+import { useDispatch } from 'react-redux';
+import { increment } from './counterActions';
+
+function Counter() {
+  const dispatch = useDispatch();
+
+  return (
+    <button onClick={() => dispatch(increment())}>
+      Increment
+    </button>
+  );
+}
+```
+
+✅ **Use this** if you're working with modern **functional components** and want **less boilerplate**.
+
+---
+
+### 📋 Quick Summary Table:
+
+| Style | Example | When to Use |
+|:------|:--------|:------------|
+| Function returning object | `(dispatch) => ({ action: () => dispatch(...) })` | When you need custom logic |
+| Plain object shorthand | `{ actionCreator }` | When you have simple actions and want clean code |
+| `bindActionCreators` | `bindActionCreators({ actionCreator }, dispatch)` | For more readable manual binding |
+| `useDispatch` Hook | `dispatch(actionCreator())` inside component | For modern React with Hooks (no connect) |
+
+---
+
+### 🔥 Example Putting All Together:
+```javascript
+// Traditional way
+export default connect(mapStateToProps, mapDispatchToProps)(MyComponent);
+
+// Shorthand object
+export default connect(mapStateToProps, { increment, decrement })(MyComponent);
+
+// No connect (hooks way)
+function MyComponent() {
+  const dispatch = useDispatch();
+  const handleIncrement = () => dispatch(increment());
+  return <button onClick={handleIncrement}>+</button>;
+}
+```
+
+---
+
+
+## ⚡ Common Mistakes with `mapDispatchToProps` in Redux
+
+
+
+### 1. **Forgetting to Call Action Creators**
+
+**Mistake:**
+```javascript
+const mapDispatchToProps = (dispatch) => ({
+  increment: dispatch(increment), // WRONG ❌
+});
+```
+🔴 **Problem:**  
+You're immediately dispatching the action **instead of** *waiting* for a button click (or user action).
+
+---
+**Correct Way:**
+```javascript
+const mapDispatchToProps = (dispatch) => ({
+  increment: () => dispatch(increment()), // ✅ wrap it in a function
+});
+```
+✅ **Why:**  
+You need to create a **function** that dispatches the action **when called**, not immediately.
+
+---
+
+### 2. **Passing `dispatch`ed functions instead of `action creators`**
+
+**Mistake in object shorthand:**
+```javascript
+const mapDispatchToProps = {
+  increment: dispatch(increment()), // WRONG ❌
+};
+```
+🔴 **Problem:**  
+Object shorthand expects **action creators** only — `connect` will automatically handle dispatching.
+
+---
+**Correct Way:**
+```javascript
+const mapDispatchToProps = {
+  increment, // ✅ just pass the action creator directly
+};
+```
+
+✅ **Why:**  
+When you pass `{ increment }`, `connect` wraps it in `dispatch` for you automatically.
+
+---
+
+### 3. **Not Memoizing Functions (Causing Re-renders)**
+
+**Mistake when using hooks like `useDispatch`:**
+```javascript
+function Counter() {
+  const dispatch = useDispatch();
+  
+  return (
+    <button onClick={() => dispatch(increment())}>
+      Increment
+    </button>
+  );
+}
+```
+🔴 **Problem:**  
+The inline function (`() => dispatch(increment())`) **recreates every render**, potentially causing performance issues if passed down to child components.
+
+---
+**Better Way (Optimize with `useCallback`):**
+```javascript
+import { useCallback } from 'react';
+
+function Counter() {
+  const dispatch = useDispatch();
+
+  const handleIncrement = useCallback(() => {
+    dispatch(increment());
+  }, [dispatch]);
+
+  return <button onClick={handleIncrement}>Increment</button>;
+}
+```
+
+✅ **Why:**  
+`useCallback` memoizes the function so it doesn’t get recreated unnecessarily.
+
+---
+
+### 4. **Using `bindActionCreators` unnecessarily**
+
+**Mistake:**
+```javascript
+import { bindActionCreators } from 'redux';
+
+const mapDispatchToProps = (dispatch) => 
+  bindActionCreators({ increment, decrement }, dispatch);
+```
+🔴 **Problem:**  
+It's **unnecessary** if you're just passing simple action creators — **shorthand object syntax** is enough.
+
+---
+**Simpler and better:**
+```javascript
+const mapDispatchToProps = { increment, decrement };
+```
+✅ **Why:**  
+Less boilerplate, easier to read, and works the same.
+
+---
+
+### 5. **Binding inside the Component (Bad for performance)**
+
+**Mistake:**
+```javascript
+function Counter({ increment }) {
+  return <button onClick={() => increment()}>Increment</button>; // inline binding
+}
+```
+🔴 **Problem:**  
+Again, inline functions can cause unnecessary renders, especially in large apps or list components.
+
+---
+**Better Way (memoize at higher level or with `useCallback`):**
+```javascript
+function Counter({ increment }) {
+  const handleIncrement = useCallback(() => increment(), [increment]);
+  
+  return <button onClick={handleIncrement}>Increment</button>;
+}
+```
+✅ **Why:**  
+Helps with performance optimization.
+
+---
+
+## 🔥 Quick "Golden Rules" to Remember
+- ✅ Wrap actions in functions (`() => dispatch(action())`) — **don't dispatch immediately**.
+- ✅ Use **object shorthand** when possible (`{ increment }`).
+- ✅ Use `useCallback` with hooks to **memoize dispatching functions**.
+- ✅ **Prefer `connect`+object or `useDispatch`**, not both together.
+- ✅ Avoid unnecessary complexity with `bindActionCreators` unless absolutely needed.
+
+---
+
+
+## What is the use of ownProps in Redux?
+
+Good question — **`ownProps`** is an *optional second argument* you get in `mapStateToProps` and `mapDispatchToProps` when using `connect()` from `react-redux`.
+
+It gives you **access to the props passed from a parent component** into the connected component.  
+You can then **use those props** to customize how you map state or dispatch actions.
+
+---
+
+# 📖 **Definition:**
+
+> `ownProps` refers to the props **already passed** to the component by its **parent**, *before* Redux injects state or dispatch props.
+
+```javascript
+function mapStateToProps(state, ownProps) {
+  // state → the entire Redux store
+  // ownProps → props from the parent
+}
+```
+
+```javascript
+function mapDispatchToProps(dispatch, ownProps) {
+  // dispatch → function to dispatch actions
+  // ownProps → props from the parent
+}
+```
+
+---
+
+# 🛠 **Why is `ownProps` Useful?**
+
+- 🎯 **Dynamic mapping** based on props.
+- 🎯 **Filter data** based on a specific ID, category, or property.
+- 🎯 **Pass parameters** into actions without hardcoding them inside Redux logic.
+
+
+
+# 📦 **Example Usage**
+
+### 1. **mapStateToProps using ownProps**
+
+Suppose you have a `Post` component that needs a *specific post* from a list of posts.
+
+```javascript
+function mapStateToProps(state, ownProps) {
+  const { postId } = ownProps;
+  
+  return {
+    post: state.posts.find(post => post.id === postId),
+  };
+}
+
+export default connect(mapStateToProps)(Post);
+```
+
+**Explanation:**
+- `ownProps.postId` is provided by the parent (maybe `<Post postId="42" />`).
+- We use that `postId` to **find the correct post** in the Redux store.
+
+---
+
+### 2. **mapDispatchToProps using ownProps**
+
+Sometimes actions need data from props.
+
+```javascript
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    upvote: () => dispatch({ type: 'UPVOTE_POST', payload: ownProps.postId }),
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Post);
+```
+
+**Explanation:**
+- Instead of hardcoding post ID, the dispatched action dynamically uses `ownProps.postId`.
+
+---
+
+# 🚀 **Summary Table:**
+
+| Aspect         | Meaning |
+|:---------------|:--------|
+| **`ownProps`** | Props passed from the parent before Redux connects the component. |
+| **Use in `mapStateToProps`** | Select specific slices of state based on props (e.g., filter by ID). |
+| **Use in `mapDispatchToProps`** | Dispatch actions dynamically based on props. |
+| **Benefit** | Makes connected components *more dynamic* and *reusable*. |
+
+---
+
+# ⚡ Real-Life Example
+
+```jsx
+<Post postId="123" />
+```
+
+In Redux:
+
+```javascript
+function mapStateToProps(state, ownProps) {
+  return {
+    post: state.posts.byId[ownProps.postId],
+  };
+}
+```
+Without `ownProps`, every `Post` would need **all** posts — with `ownProps`, it only gets **its own post**. Much more efficient!
+
+---
+
+
 ## 🛠️ Redux and Middleware
+
+
 ## What are middleware in Redux?
+Let's break it down clearly:
+
+---
+
+# 📖 What are Middleware in Redux?
+
+In Redux, **middleware** are **functions** that sit **between** the action **dispatch** and the moment the action **reaches the reducer**.
+
+🔹 **In simple words:**  
+Middleware can **intercept actions**, **modify them**, **log them**, **delay them**, or even **cancel them** before they hit the reducer.
+
+---
+
+# 🎯 Why Middleware?
+
+Middleware lets you:
+- Handle **side effects** (like API calls, logging, routing).
+- Extend Redux functionality without modifying the core logic.
+- Write cleaner, scalable async code (example: `redux-thunk`, `redux-saga`).
+
+---
+
+# 🛠 How Middleware Works (Simple View)
+
+Redux dispatch flow **without** middleware:
+```
+dispatch(action) → reducer → store updates
+```
+
+Redux dispatch flow **with** middleware:
+```
+dispatch(action) → middleware(s) → reducer → store updates
+```
+
+Each middleware gets:
+- `store.dispatch`
+- `store.getState`
+- `next` (the next middleware or the reducer)
+
+---
+
+# 📦 Basic Middleware Structure
+
+Middleware is just a **function that returns another function that returns another function**:
+
+```javascript
+const exampleMiddleware = (store) => (next) => (action) => {
+  // Do something with action or store
+  console.log('Dispatching action:', action);
+
+  // Pass the action to the next middleware/reducer
+  return next(action);
+};
+```
+
+- `store` = Redux store object
+- `next` = the next middleware or final reducer
+- `action` = the current dispatched action
+
+---
+
+# 🚀 Popular Built-in/Custom Middleware Examples
+
+| Middleware     | Purpose |
+|:---------------|:--------|
+| **redux-thunk** | Handle async operations (like fetching data) |
+| **redux-saga** | Manage side effects using generator functions |
+| **redux-logger** | Logs every action and state change (for debugging) |
+| **custom** | Authentication checks, notifications, error handling, etc. |
+
+---
+
+# 🔥 Example: Logger Middleware
+
+A middleware to **log every action** dispatched:
+
+```javascript
+const loggerMiddleware = (store) => (next) => (action) => {
+  console.log('Previous State:', store.getState());
+  console.log('Action:', action);
+  
+  const result = next(action); // pass action to next
+  
+  console.log('Next State:', store.getState());
+  
+  return result;
+};
+```
+
+---
+
+# ⚙️ How to Add Middleware to Redux Store
+
+Using `applyMiddleware`:
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from './reducers';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk, logger)
+);
+```
+
+Or if you're using **Redux Toolkit** (which internally uses `applyMiddleware`):
+
+```javascript
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from './reducers';
+import thunk from 'redux-thunk';
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+});
+```
+
+---
+
+# 📋 Quick Summary
+
+| Term | Meaning |
+|:----|:--------|
+| **Middleware** | A function that intercepts actions before they reach reducers |
+| **Purpose** | Handle side effects, logging, async calls, routing, etc. |
+| **Examples** | redux-thunk, redux-saga, redux-logger |
+| **Key Benefit** | Makes Redux more flexible and powerful without changing the reducer logic |
+
+---
+
+
 ## How do you add multiple middlewares?
+
+Great question — it's important to know how to **combine multiple middlewares** properly in Redux.
+
+Here’s the clear explanation:
+
+---
+
+# 📖 How to Add Multiple Middlewares in Redux
+
+You **combine multiple middlewares** by passing them into the `applyMiddleware` function **all at once**.
+
+✅ **`applyMiddleware(middleware1, middleware2, middleware3, ...)`**
+
+---
+
+# 🛠 Example using `createStore` (Classic Redux)
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+import rootReducer from './reducers';
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk, logger) // <- multiple middlewares here
+);
+```
+- `thunk` handles async actions.
+- `logger` logs all actions and state changes.
+
+✅ You can pass **as many middlewares as you want**, comma-separated.
+
+---
+
+# ⚙️ Example using `configureStore` (Redux Toolkit — Modern Way)
+
+Redux Toolkit already adds some default middlewares (like `redux-thunk`) — but you can **customize or add more**.
+
+```javascript
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from './reducers';
+import customMiddleware from './customMiddleware';
+import logger from 'redux-logger';
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(customMiddleware, logger), 
+});
+```
+- `getDefaultMiddleware()` gives you the default ones (like thunk).
+- `.concat(...)` adds your custom middlewares.
+
+✅ **In Redux Toolkit**, you usually *append* or *replace* middlewares using `.concat()` or `.prepend()`.
+
+---
+
+# 🔥 Bonus Tip
+
+👉 **Order matters** when applying multiple middlewares!
+
+- Middleware are called **in the order you apply them**.
+- So if you apply logger **before** thunk, it may log *pending async actions*.
+- If you apply logger **after** thunk, it logs *resolved async actions*.
+
+🔵 **Example:**  
+```javascript
+applyMiddleware(thunk, logger) // first thunk handles async, then logger logs results
+```
+
+---
+
+# 📋 Quick Summary
+
+| Step | Description |
+|:----|:------------|
+| 1️⃣ | Import all middlewares |
+| 2️⃣ | Pass them into `applyMiddleware(middleware1, middleware2, middleware3, ...)` |
+| 3️⃣ | If using Redux Toolkit, use `.concat()` with `getDefaultMiddleware()` |
+| 4️⃣ | Remember that **order matters** |
+
+---
+
 ## How do you make AJAX requests in Redux?
+
+Good question — let's go through it **clearly and practically**:
+
+---
+
+# 📖 How to Make AJAX Requests in Redux?
+
+In Redux, you **can't** make AJAX (API) requests directly inside reducers because **reducers must be pure** (no side effects like API calls).
+
+✅ So you make AJAX requests in **action creators**, using **middleware** like:
+
+- `redux-thunk` (most common)
+- `redux-saga`
+- `redux-observable`
+
+We'll focus first on the **simple and most common** method: **`redux-thunk`**.
+
+---
+
+# ⚙️ Basic Flow with Redux Thunk
+
+1. Dispatch an **action creator**.
+2. Inside the action creator, **make the API call**.
+3. Dispatch **different actions** based on success or failure.
+4. Reducers update the store accordingly.
+
+---
+
+# 🛠 Example: AJAX Request with `redux-thunk`
+
+### 1. Install `redux-thunk` if you haven't:
+
+```bash
+npm install redux-thunk
+```
+
+---
+
+### 2. Set up Redux with thunk middleware:
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import rootReducer from './reducers';
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk)
+);
+```
+
+---
+
+### 3. Create action types:
+
+```javascript
+// actionTypes.js
+export const FETCH_USERS_REQUEST = 'FETCH_USERS_REQUEST';
+export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
+export const FETCH_USERS_FAILURE = 'FETCH_USERS_FAILURE';
+```
+
+---
+
+### 4. Create async action creators:
+
+```javascript
+// userActions.js
+import axios from 'axios';
+import { FETCH_USERS_REQUEST, FETCH_USERS_SUCCESS, FETCH_USERS_FAILURE } from './actionTypes';
+
+export const fetchUsers = () => {
+  return async (dispatch) => {
+    dispatch({ type: FETCH_USERS_REQUEST }); // start loading
+
+    try {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+      dispatch({ type: FETCH_USERS_SUCCESS, payload: response.data }); // success
+    } catch (error) {
+      dispatch({ type: FETCH_USERS_FAILURE, payload: error.message }); // failure
+    }
+  };
+};
+```
+
+✅  
+- Start loading → `FETCH_USERS_REQUEST`
+- On success → `FETCH_USERS_SUCCESS`
+- On failure → `FETCH_USERS_FAILURE`
+
+---
+
+### 5. Update Reducers:
+
+```javascript
+// userReducer.js
+import { FETCH_USERS_REQUEST, FETCH_USERS_SUCCESS, FETCH_USERS_FAILURE } from './actionTypes';
+
+const initialState = {
+  loading: false,
+  users: [],
+  error: '',
+};
+
+const userReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case FETCH_USERS_REQUEST:
+      return { ...state, loading: true };
+    case FETCH_USERS_SUCCESS:
+      return { loading: false, users: action.payload, error: '' };
+    case FETCH_USERS_FAILURE:
+      return { loading: false, users: [], error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export default userReducer;
+```
+
+---
+
+### 6. Dispatch the async action in your component:
+
+```javascript
+// UserList.js
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from './userActions';
+
+const UserList = () => {
+  const dispatch = useDispatch();
+  const { loading, users, error } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+};
+
+export default UserList;
+```
+
+---
+
+# 🔥 Quick Recap
+
+| Step | Description |
+|:----|:------------|
+| 1️⃣ | Install and set up `redux-thunk` |
+| 2️⃣ | Create async action creators (use `dispatch` inside them) |
+| 3️⃣ | Make AJAX requests (axios, fetch, etc.) inside action creators |
+| 4️⃣ | Dispatch success or error actions |
+| 5️⃣ | Update reducers based on actions |
+
+
+# ⚡ Bonus Tip
+
+- **Axios** is popular for AJAX in Redux (but you can also use `fetch`).
+- If you want more advanced side-effect management (like cancelling requests, retries, etc.), look into **redux-saga** later.
+
 
 ---
 
 # 🧩 Other Advanced Topics
+
+
 ## What are typical middleware choices for Redux async calls?
 ## What is Formik and why prefer it over Redux Form?
 ## What is MobX and how does it differ from Redux?
